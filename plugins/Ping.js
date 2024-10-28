@@ -26,18 +26,17 @@ let texto = `*🚀 𝐕𝐞𝐥𝐨𝐜𝐢𝐝𝐚𝐝*
 *⏰ 𝐀𝐜𝐭𝐢𝐯𝐢𝐝𝐚𝐝*
 • ${muptime}
 
-
-*💻 𝐒𝐞𝐫𝐯𝐢𝐝𝐨𝐫*
+*💻 𝐒𝐞𝐫𝐯𝐢𝐝𝐨𝐫 / nodovip*
 • *Ram:* ${format(totalmem() - freemem())} / ${format(totalmem())}`.trim()
 
-conn.sendMessage(m.chat, { text: texto, contextInfo: { externalAdReply: { title: '', body: 'SHANA-BOT', thumbnailUrl: 'https://telegra.ph/file/bc6464a25b50bf28bfa49.png', sourceUrl: '', mediaType: 1, renderLargerThumbnail: true }}})
+conn.sendMessage(m.chat, { text: texto, contextInfo: { externalAdReply: { title: '', body: 'ELITE BOT GLOBAL', thumbnailUrl: 'https://telegra.ph/file/bc6464a25b50bf28bfa49.png', sourceUrl: '', mediaType: 1, renderLargerThumbnail: true }}})
 
 }
 handler.help = ['ping']
 handler.tags = ['bot']
 handler.command = ['ping', 'velocidad']
 
-handler.register = true
+handler.register = false
 
 export default handler
 
