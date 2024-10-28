@@ -27,9 +27,6 @@ let texto = `*🚀 𝐕𝐞𝐥𝐨𝐜𝐢𝐝𝐚𝐝*
 *⏰ 𝐀𝐜𝐭𝐢𝐯𝐢𝐝𝐚𝐝*
 • ${muptime}
 
-Tiempo Activo: *${uptime}*
-
-
 *💻 𝐒𝐞𝐫𝐯𝐢𝐝𝐨𝐫 / nodovip*
 • *Ram:* ${format(totalmem() - freemem())} / ${format(totalmem())}`.trim()
 
