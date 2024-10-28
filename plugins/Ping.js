@@ -29,7 +29,7 @@ let texto = `*🚀 𝐕𝐞𝐥𝐨𝐜𝐢𝐝𝐚𝐝*
 *💻 𝐒𝐞𝐫𝐯𝐢𝐝𝐨𝐫 / nodovip*
 • *Ram:* ${format(totalmem() - freemem())} / ${format(totalmem())}`.trim()
 
-conn.sendMessage(m.chat, { text: texto, contextInfo: { externalAdReply: { title: '', body: '*ELITE BOT GLOBAL*', thumbnailUrl: 'https://qu.ax/YQAhw.jpg', sourceUrl: '', mediaType: 1, renderLargerThumbnail: true }}})
+conn.sendMessage(m.chat, { text: texto, contextInfo: { externalAdReply: { title: '', body: '𝙀𝙡𝙞𝙩𝙚𝘽𝙤𝙩𝙂𝙡𝙤𝙗𝙖𝙡', thumbnailUrl: 'https://qu.ax/YQAhw.jpg', sourceUrl: '', mediaType: 1, renderLargerThumbnail: true }}})
 
 }
 handler.help = ['ping']
