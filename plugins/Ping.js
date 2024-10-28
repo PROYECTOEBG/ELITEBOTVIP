@@ -26,6 +26,16 @@ let texto = `*🚀 𝐕𝐞𝐥𝐨𝐜𝐢𝐝𝐚𝐝*
 *⏰ 𝐀𝐜𝐭𝐢𝐯𝐢𝐝𝐚𝐝*
 • ${muptime}
 
+
+┃ღ *Activo Durante | Active During* 
+┃➥ ${uptime}
+┃ღ *Usuario(s) | Users* 
+┃➥ ${Object.keys(global.db.data.users).length} 
+┃ღ *Chat(s) Prohibido(s) | Forbidden Chats*
+┃➥ ${Object.entries(global.db.data.chats).filter(chat => chat[1].isBanned).length} 
+┃ღ *Usuario(s) Prohibido(s) | Prohibited Urs*
+┃➥ ${Object.entries(global.db.data.users).filter(user => user[1].banned).length} 
+
 *💻 𝐒𝐞𝐫𝐯𝐢𝐝𝐨𝐫 / nodovip*
 • *Ram:* ${format(totalmem() - freemem())} / ${format(totalmem())}`.trim()
 
