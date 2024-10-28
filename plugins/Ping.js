@@ -16,8 +16,6 @@ let latensi = speed() - timestamp
 let _muptime = process.uptime() * 1000
 let muptime = clockString(_muptime)
 
-
-let uptime = clockString(_uptime) 
   
 let chats = Object.entries(conn.chats).filter(([id, data]) => id && data.isChats)
 let groups = Object.entries(conn.chats).filter(([jid, chat]) => jid.endsWith('@g.us') && chat.isChats && !chat.metadata?.read_only && !chat.metadata?.announce).map(v => v[0])
