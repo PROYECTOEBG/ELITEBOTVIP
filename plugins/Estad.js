@@ -1,7 +1,7 @@
 const handler = async (m, {conn}) => {
   try {
     //const pp = imagen3;
-    const pp = './src/sinfoto.jpg';
+    let pp = './src/sinfoto.jpg';
     const img = await(await fetch('https://chat.whatsapp.com/GzqYw7fK9CADEWEtfL6804')).buffer();
     const _uptime = process.uptime() * 1000;
     const uptime = clockString(_uptime);
