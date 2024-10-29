@@ -1,6 +1,6 @@
 var handler = async (m, {conn, groupMetadata }) => {
 
-conn.reply(m.chat, `${await groupMetadata.id}`, fkontak, fake, )
+conn.reply(m.chat, `${await groupMetadata.id}`, fkontak, )
 
 }
 handler.help = ['idgc']
