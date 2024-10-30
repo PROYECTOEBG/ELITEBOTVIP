@@ -1,6 +1,6 @@
 const handler = async (m, {conn}) => {
   try {
-    const pp = imagen7;
+    const pp = imagen6;
     const img = await(await fetch('https://chat.whatsapp.com/GzqYw7fK9CADEWEtfL6804')).buffer();
     const _uptime = process.uptime() * 1000;
     const uptime = clockString(_uptime);
@@ -23,7 +23,7 @@ const handler = async (m, {conn}) => {
 };
 handler.help = ['estado'];
 handler.tags = ['main'];
-handler.rowner = true;
+
 handler.command = /^(estado|status|estate|state|stado|stats|runtime|uptime)$/i;
 export default handler;
 function clockString(ms) {
