@@ -21,7 +21,7 @@ let chats = Object.entries(conn.chats).filter(([id, data]) => id && data.isChats
 let groups = Object.entries(conn.chats).filter(([jid, chat]) => jid.endsWith('@g.us') && chat.isChats && !chat.metadata?.read_only && !chat.metadata?.announce).map(v => v[0])
 
 
-let texto = `*🚀 𝐕𝐞𝐥𝐨𝐜𝐢𝐝𝐚𝐝*
+let texto = `*🚀 𝐕𝐞ff𝐥𝐨𝐜𝐢𝐝𝐚𝐝*
 • ${latensi.toFixed(4)}
 
 *⏰ 𝐀𝐜𝐭𝐢𝐯𝐢𝐝𝐚𝐝*
