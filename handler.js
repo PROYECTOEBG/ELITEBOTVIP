@@ -1411,6 +1411,8 @@ function pickRandom(list) { return list[Math.floor(Math.random() * list.length)]
  * Handle groups participants update
  * @param {import('@adiwajshing/baileys').BaileysEventMap<unknown>['group-participants.update']} groupsUpdate 
  */
+
+// copiar desde aqui para configurar despedida y bienvenida.
 export async function participantsUpdate({ id, participants, action }) {
     if (opts['self'])
         return
@@ -1465,7 +1467,8 @@ let fkontak2 = { "key": { "participants":"0@s.whatsapp.net", "remoteJid": "statu
 conn.sendMessage(id, { image: apii.data, caption: text, mentions: [user]}, { quoted: fkontak2 })  
 //this.sendFile(id, apii.data, 'pp.jpg', text, null, false, { mentions: [user] }, { quoted: fkontak2 })
 }}}
-			    
+// copiar hasta aqui para configurar despedida y bienvenida.
+		    
 break
 case 'promote':
 case 'daradmin':
