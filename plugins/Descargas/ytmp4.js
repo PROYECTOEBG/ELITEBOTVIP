@@ -5,7 +5,7 @@ import ytdl from 'ytdl-core'
 import axios from 'axios'
 let handler = async (m, { conn, args, usedPrefix, command }) => {
 let fkontak = { "key": { "participants":"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net" }
-if (!args[0]) return conn.reply(m.chat, `🍭 Te Faltó Un Link De Un Video De Youtube`, /*fkontak,*/ m, { contextInfo: { 'forwardingScore': 0, 'isForwarded': false, externalAdReply:{ showAdAttribution: false, title: packname, body: `👋 Hola ` , mediaType: 3, sourceUrl: redes, thumbnail: icons}}}, { quoted: fkontak })
+if (!args[0]) return conn.reply(m.chat, `🍭 Te Faltó Un Link De Un Video De Youtube`, /*fkontak,*/ m, { contextInfo: { 'forwardingScore': 0, 'isForwarded': false, externalAdReply:{ showAdAttribution: false, title: packname, body: `👋 Hola ` , mediaType: 3, thumbnail: icons}}}, { quoted: fkontak })
 
 let youtubeLink = '';
 if (args[0].includes('you')) {
