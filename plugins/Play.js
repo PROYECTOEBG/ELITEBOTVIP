@@ -11,10 +11,10 @@ if (!play) return conn.reply(m.chat, `No se encontraron resultados`, m)
 
 let { title, thumbnail, ago, timestamp, views, videoId, url } = play;
 
-let txt = '*`ゲ◜៹ YouTube Search ៹◞ゲ`*\n';
-txt += `> Título : *${title || '❌'}*\n`;
-txt += `> Creado : *${ago || '❌'}*\n`;
-txt += `> Duración : *${timestamp || '❌'}*\n`;
+let txt = '';
+txt += ``;
+txt += ``;
+txt += ``;
 txt += ``;
 txt += ``;
 
