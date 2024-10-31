@@ -11,17 +11,15 @@ if (!play) return conn.reply(m.chat, `No se encontraron resultados`, m)
 
 let { title, thumbnail, ago, timestamp, views, videoId, url } = play;
 
-let txt = '*`ゲ◜៹ YouTube Search ៹◞ゲ`*\n';
-txt += `> Título : *${title || '❌'}*\n`;
-txt += `> Creado : *${ago || '❌'}*\n`;
-txt += `> Duración : *${timestamp || '❌'}*\n`;
-txt += `> Visitas : *${views.toLocaleString() || '❌'}*\n`;
-txt += `> Link : *https://www.youtube.com/watch?v=${videoId}*\n`;
+let txt = '
+01:27 ━━━━━⬤──── ${timestamp
+*⇄ㅤ   ◁   ㅤ  ❚❚ㅤ     ▷ㅤ   ↻*
+𝙀𝙡𝙞𝙩𝙚 𝘽𝙤𝙩 𝙂𝙡𝙤𝙗𝙖𝙡`;
 
 await conn.sendButton(m.chat, txt, author, thumbnail, [
 ['Audio', `${usedPrefix}ytmp3 ${url}`],
 ['Video', `${usedPrefix}ytmp4 ${url}`]
-], null, [['Hosting', md]], m);
+], null, [['Canal', md]], m);
 await m.react('✅')
 }
 
