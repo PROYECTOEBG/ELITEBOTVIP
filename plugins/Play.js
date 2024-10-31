@@ -21,7 +21,7 @@ txt += ``;
 await conn.sendButton(m.chat, txt, author, thumbnail, [
 ['Audio', `${usedPrefix}ytmp3 ${url}`],
 ['Video', `${usedPrefix}ytmp4 ${url}`]
-], null, [['Hosting', md]], m);
+], null, [['Canal', md]], m);
 await m.react('✅')
 }
 
