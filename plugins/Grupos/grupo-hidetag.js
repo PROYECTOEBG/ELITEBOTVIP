@@ -1,4 +1,5 @@
-import {generateWAMessageFromContent} from '@whiskeysockets/baileys';
+
+/*import {generateWAMessageFromContent} from '@whiskeysockets/baileys';
 import * as fs from 'fs';
 const handler = async (m, {conn, text, participants, isOwner, isAdmin}) => {
   try {
@@ -8,9 +9,7 @@ const handler = async (m, {conn, text, participants, isOwner, isAdmin}) => {
     const msg = conn.cMod(m.chat, generateWAMessageFromContent(m.chat, {[m.quoted ? q.mtype : 'extendedTextMessage']: m.quoted ? c.message[q.mtype] : {text: '' || c}}, {quoted: m, userJid: conn.user.id}), text || q.text, conn.user.jid, {mentions: users});
     await conn.relayMessage(m.chat, msg.message, {messageId: msg.key.id});
   } catch {
-    /**
-[ By @NeKosmic || https://github.com/NeKosmic/ ]
-**/
+    
 
     const users = participants.map((u) => conn.decodeJid(u.id));
     const quoted = m.quoted ? m.quoted : m;
@@ -39,4 +38,4 @@ const handler = async (m, {conn, text, participants, isOwner, isAdmin}) => {
 handler.command = /^(hidetag|noti|n|notify|aviso|avisos|rp)$/i;
 handler.group = true;
 handler.admin = true;
-export default handler;
+export default handler; 
