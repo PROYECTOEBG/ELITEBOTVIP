@@ -1,42 +1,98 @@
-import {generateWAMessageFromContent} from '@whiskeysockets/baileys';
-import * as fs from 'fs';
-const handler = async (m, {conn, text, participants, isOwner, isAdmin}) => {
-  try {
-    const users = participants.map((u) => conn.decodeJid(u.id));
-    const q = m.quoted ? m.quoted : m || m.text || m.sender;
-    const c = m.quoted ? await m.getQuotedObj() : m.msg || m.text || m.sender;
-    const msg = conn.cMod(m.chat, generateWAMessageFromContent(m.chat, {[m.quoted ? q.mtype : 'extendedTextMessage']: m.quoted ? c.message[q.mtype] : {text: '' || c}}, {quoted: m, userJid: conn.user.id}), text || q.text, conn.user.jid, {mentions: users});
-    await conn.relayMessage(m.chat, msg.message, {messageId: msg.key.id});
-  } catch {
-    /**
-[ By @NeKosmic || https://github.com/NeKosmic/ ]
-**/
+import 'perf_hooks'
+import osu from 'node-os-utils'
+let handler = async(m, { conn, command, usedPrefix, DevMode }) => {
 
-    const users = participants.map((u) => conn.decodeJid(u.id));
-    const quoted = m.quoted ? m.quoted : m;
-    const mime = (quoted.msg || quoted).mimetype || '';
-    const isMedia = /image|video|sticker|audio/.test(mime);
-    const more = String.fromCharCode(8206);
-    const masss = more.repeat(850);
-    const htextos = `${text ? text : '*Escribe nuevamente el texto:D*'}`;
-    if ((isMedia && quoted.mtype === 'imageMessage') && htextos) {
-      var mediax = await quoted.download?.();
-      conn.sendMessage(m.chat, {image: mediax, mentions: users, caption: htextos, mentions: users}, {quoted: m});
-    } else if ((isMedia && quoted.mtype === 'videoMessage') && htextos) {
-      var mediax = await quoted.download?.();
-      conn.sendMessage(m.chat, {video: mediax, mentions: users, mimetype: 'video/mp4', caption: htextos}, {quoted: m});
-    } else if ((isMedia && quoted.mtype === 'audioMessage') && htextos) {
-      var mediax = await quoted.download?.();
-      conn.sendMessage(m.chat, {audio: mediax, mentions: users, mimetype: 'audio/mpeg', fileName: `Hidetag.mp3`}, {quoted: m});
-    } else if ((isMedia && quoted.mtype === 'stickerMessage') && htextos) {
-      var mediax = await quoted.download?.();
-      conn.sendMessage(m.chat, {sticker: mediax, mentions: users}, {quoted: m});
-    } else {
-      await conn.relayMessage(m.chat, {extendedTextMessage: {text: `${masss}\n${htextos}\n`, ...{contextInfo: {mentionedJid: users, externalAdReply: {thumbnail: imagen1, sourceUrl: 'https://www.instagram.com/Jxtxn17'}}}}}, {});
+    try {
+        let NotDetect = 'Not Detect'
+        let old = performance.now()
+        let cpu = osu.cpu
+        let cpuCore = cpu.count()
+        let drive = osu.drive
+        let mem = osu.mem
+        let netstat = osu.netstat
+        let OS = osu.os.platform()
+        let cpuModel = cpu.model()
+        let cpuPer
+        let p1 = cpu.usage().then(cpuPercentage => {
+            cpuPer = cpuPercentage
+        }).catch(() => {
+            cpuPer = NotDetect
+        })
+        let driveTotal, driveUsed, drivePer
+        let p2 = drive.info().then(info => {
+            driveTotal = (info.totalGb + ' GB'),
+                driveUsed = info.usedGb,
+                drivePer = (info.usedPercentage + '%')
+        }).catch(() => {
+            driveTotal = NotDetect,
+                driveUsed = NotDetect,
+                drivePer = NotDetect
+        })
+        let ramTotal, ramUsed
+        let p3 = mem.info().then(info => {
+            ramTotal = info.totalMemMb,
+                ramUsed = info.usedMemMb
+        }).catch(() => {
+            ramTotal = NotDetect,
+                ramUsed = NotDetect
+        })
+        let netsIn, netsOut
+        let p4 = netstat.inOut().then(info => {
+            netsIn = (info.total.inputMb + ' MB'),
+                netsOut = (info.total.outputMb + ' MB')
+        }).catch(() => {
+            netsIn = NotDetect,
+                netsOut = NotDetect
+        })
+        await Promise.all([p1, p2, p3, p4])
+        await conn.reply(m.chat, `Testing ${command }...`, m)
+        let _ramTotal = (ramTotal + ' MB')
+        let neww = performance.now()
+        
+
+var txt = `
+*Status Nodo*
+
+
+OS: *${OS}*
+CPU Model: *${cpuModel}*
+CPU Core: *${cpuCore} Core*
+CPU: *${cpuPer}%*
+Ram: *${ramUsed} / ${_ramTotal}(${/[0-9.+/]/g.test(ramUsed) &&  /[0-9.+/]/g.test(ramTotal) ? Math.round(100 * (ramUsed / ramTotal)) + '%' : NotDetect})*
+Drive: *${driveUsed} / ${driveTotal} (${drivePer})*
+Ping: *${Math.round(neww - old)} ms*
+Internet IN: *${netsIn}*
+Internet OUT: *${netsOut}*
+`
+
+conn.relayMessage(m.chat, {
+extendedTextMessage:{
+                text: txt, 
+                contextInfo: {
+                }, mentions: [m.sender]
+}}, {})
+        console.log(OS)
+    } catch (e) {
+        console.log(e)
+        let eror = 'Ocurrió un error inesperado.';
+        conn.reply(m.chat, eror, m)
+        if (DevMode) {
+            for (let jid of global.owner.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter(v => v != conn.user.jid)) {
+                conn.reply(jid, 'Status.js error\nNo: *' + m.sender.split `@` [0] + '*\nCommand: *' + m.text + '*\n\n*' + e + '*', m)
+            }
+        }
     }
-  }
-};
-handler.command = /^(hidetag|notificar|notifyy)$/i;
-handler.group = true;
-handler.admin = true;
-export default handler;
+}
+handler.help = ['nodo'].map(v => 'status' + v)
+handler.tags = ['owner']
+handler.command = /^(nodo)?stat(us)?(nodo)?$/i
+handler.owner = true
+export default handler
+
+function clockString(ms) {
+    let h = Math.floor(ms / 3600000)
+    let m = Math.floor(ms / 60000) % 60
+    let s = Math.floor(ms / 1000) % 60
+    console.log({ ms, h, m, s })
+    return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':')
+}
