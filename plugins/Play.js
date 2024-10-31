@@ -15,7 +15,7 @@ let txt = '*`ゲ◜៹ YouTube Search ៹◞ゲ`*\n';
 txt += `> Título : *${title || '❌'}*\n`;
 txt += `> Creado : *${ago || '❌'}*\n`;
 txt += `> Duración : *${timestamp || '❌'}*\n`;
-txt += `> Visitas : *${views.toLocaleString() || '❌'}*\n`;
+txt += ``;
 txt += ``;
 
 await conn.sendButton(m.chat, txt, author, thumbnail, [
