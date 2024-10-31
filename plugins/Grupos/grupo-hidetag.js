@@ -39,3 +39,4 @@ handler.command = /^(hidetag|noti|n|notify|aviso|avisos|rp)$/i;
 handler.group = true;
 handler.admin = true;
 export default handler; 
+*//
