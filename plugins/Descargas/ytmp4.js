@@ -23,7 +23,7 @@ throw `${lenguajeGB['smsAvisoMG']()}${mid.smsY2(usedPrefix, command)} ${usedPref
 }} else {
 throw `${lenguajeGB['smsAvisoMG']()}${mid.smsY2(usedPrefix, command)}${usedPrefix}playlist <texto>*`;
 }}}  
-await conn.reply(m.chat, lenguajeGB['smsAvisoEG']() + mid.smsVid, fkontak, m)
+await conn.reply(m.chat, mid.smsVid, fkontak, m)
 try {
 let qu = args[1] || '360'
 let q = qu + 'p'
