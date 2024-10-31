@@ -27,6 +27,6 @@ await m.react('✅')
 
 handler.help = ['play', 'play2']
 handler.tags = ['dl'];
-handler.command = ['play', 'play2']
+handler.command = ['playy', 'play2']
 
 export default handler;
