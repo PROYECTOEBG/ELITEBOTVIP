@@ -11,9 +11,12 @@ if (!play) return conn.reply(m.chat, `No se encontraron resultados`, m)
 
 let { title, thumbnail, ago, timestamp, views, videoId, url } = play;
 
-let txt = `01:27 ━━━━━⬤──── ${timestamp
-*⇄ㅤ   ◁   ㅤ  ❚❚ㅤ     ▷ㅤ   ↻*
-𝙀𝙡𝙞𝙩𝙚 𝘽𝙤𝙩 𝙂𝙡𝙤𝙗𝙖𝙡`;
+let txt = '*`ゲ◜៹ YouTube Search ៹◞ゲ`*\n';
+txt += `> Título : *${title || '❌'}*\n`;
+txt += `> Creado : *${ago || '❌'}*\n`;
+txt += `> Duración : *${timestamp || '❌'}*\n`;
+txt += `> Visitas : *${views.toLocaleString() || '❌'}*\n`;
+txt += ``;
 
 await conn.sendButton(m.chat, txt, author, thumbnail, [
 ['Audio', `${usedPrefix}ytmp3 ${url}`],
@@ -22,7 +25,7 @@ await conn.sendButton(m.chat, txt, author, thumbnail, [
 await m.react('✅')
 }
 
-handler.help = ['playy', 'play2']
+handler.help = ['play', 'play2']
 handler.tags = ['dl'];
 handler.command = ['play', 'play2']
 
