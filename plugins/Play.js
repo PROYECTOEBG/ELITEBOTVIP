@@ -16,7 +16,7 @@ txt += `> Título : *${title || '❌'}*\n`;
 txt += `> Creado : *${ago || '❌'}*\n`;
 txt += `> Duración : *${timestamp || '❌'}*\n`;
 txt += `> Visitas : *${views.toLocaleString() || '❌'}*\n`;
-txt += ``;
+txt += `> Link : *https://www.youtube.com/watch?v=${videoId}*\n`;
 
 await conn.sendButton(m.chat, txt, author, thumbnail, [
 ['Audio', `${usedPrefix}ytmp3 ${url}`],
@@ -27,6 +27,6 @@ await m.react('✅')
 
 handler.help = ['play', 'play2']
 handler.tags = ['dl'];
-handler.command = ['playy', 'play2']
+handler.command = ['play', 'play2']
 
 export default handler;
