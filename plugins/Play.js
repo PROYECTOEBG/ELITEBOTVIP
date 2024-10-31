@@ -16,7 +16,7 @@ txt += `> Título : *${title || '❌'}*\n`;
 txt += `> Creado : *${ago || '❌'}*\n`;
 txt += `> Duración : *${timestamp || '❌'}*\n`;
 txt += `> Visitas : *${views.toLocaleString() || '❌'}*\n`;
-txt += `> Link : *https://www.youtube.com/watch?v=${videoId}*\n`;
+txt += ``;
 
 await conn.sendButton(m.chat, txt, author, thumbnail, [
 ['Audio', `${usedPrefix}ytmp3 ${url}`],
