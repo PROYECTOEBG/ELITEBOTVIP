@@ -6,7 +6,7 @@ const handler = async (m, {conn}) => {
     const uptime = clockString(_uptime);
     const taguser = '@' + m.sender.split('@s.whatsapp.net')[0];
     const str = `╭━━━━━━━━━━━━━━✠
-┃  *» 𝖡𝗎𝖾𝗇 𝖽í𝖺 𝗆𝗂 𝖼𝗋𝖾𝖺𝖽𝗈𝗋*
+┃  *» Hola, buen dia*
 ┃    ${taguser}
 ┃
 ┃ 〽️ Estoy activo desde: ${uptime}
