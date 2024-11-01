@@ -1,17 +1,16 @@
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) throw `Y EL TEXTO?`
+  if (!text) return conn.reply(m.chat, `🚩 *Que Nombre Deseas Ponerme?*`, m, rcanal)
   try {
     await conn.updateProfileName(text)
-    m.reply('LISTO!')
+    return conn.reply(m.chat, '✅️ *Nombre Cambiado Con Éxito*', m, rcanal)
   } catch (e) {
     console.log(e)
-    throw `Error`
+    throw `🚩 Ocurrió Un Error¡!`
   }
 }
-handler.help = ['setbotname <teks>']
+handler.help = ['nuevonombre <teks>']
 handler.tags = ['owner']
-handler.command = /^(setbotname|cambianombre)$/i
+handler.command = /^(setbotname|nuevonombrebot|cambianombre)$/i
 
 handler.owner = true
-
 export default handler
