@@ -37,6 +37,6 @@ const handler = async (m, { text, conn, args, usedPrefix, command }) => {
   }
 };
 
-handler.command = /^(facebook)$/i;
+handler.command = /^(facebook|fb)$/i;
 
 export default handler;       
