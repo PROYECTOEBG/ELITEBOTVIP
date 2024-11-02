@@ -13,13 +13,13 @@ import { en, es, id, ar, pt } from "./lib/idiomas/total-idiomas.js"
 // [ES] > Agrega el número que será Bot y los que serán propietarios.
 // [EN] > Add the number that will be Bot and those that will be owners.
 global.owner = [
-["593993370003", '', true], //𝙂𝙖𝙩𝙖𝘽𝙤𝙩-𝙈𝘿
-["593993370003"], 
-["593993370003"],
-["593993370003"],
-["593993370003"],
-["593993370003"],
-["593993370003"]]
+["593968467001", '', true], //𝙂𝙖𝙩𝙖𝘽𝙤𝙩-𝙈𝘿
+["593968467001"], 
+["593968467001"],
+["593968467001"],
+["593968467001"],
+["593968467001"],
+["593968467001"]]
 
 global.mods = []
 global.prems = []
@@ -171,7 +171,7 @@ global.exito = eg
 // • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • •
 global.wm = "𝙀𝙇𝙄𝙏𝙀 𝘽𝙊𝙏 𝙂𝙇𝙊𝘽𝘼𝙇"
 global.igfg = "𝙀𝙇𝙄𝙏𝙀 𝘽𝙊𝙏 𝙂𝙇𝙊𝘽𝘼𝙇"
-global.nomorown = "593993370003"
+global.nomorown = "593968467001"
 global.pdoc = ["application/vnd.openxmlformats-officedocument.presentationml.presentation", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.ms-excel", "application/msword", "application/pdf", "text/rtf"]
 // • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • •
 
