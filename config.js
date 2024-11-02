@@ -448,7 +448,7 @@ global.tk = accounts.tiktok
 global.ths = accounts.threads
 global.paypal = accounts.paypal
 global.asistencia = others.assistance_num
-global.bot = 'wa.me/593993370003'
+global.bot = 'wa.me/593968467001'
 global.cuentas = accounts.all
 
 global.canal1 = channels.channel1
