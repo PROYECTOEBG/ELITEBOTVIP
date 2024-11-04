@@ -62,5 +62,5 @@ conn.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id) }, 
 }
 handler.help = ['smsf20 <mesaje>','fem20 <mesaje>']
 handler.tags = ['group']
-handler.command = /^(scrims|scrim)$/i
+handler.command = /^(reglasvk)$/i
 export default handler
