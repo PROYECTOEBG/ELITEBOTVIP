@@ -995,7 +995,7 @@ if (!('antiTwitter' in chat)) chat.antiTwitter = false
 if (!('antiDiscord' in chat)) chat.antiDiscord = false
 if (!('antiThreads' in chat)) chat.antiThreads = false
 if (!('antiTwitch' in chat)) chat.antiTwitch = false
-if (!('antifake' in chat)) chat.antifake = false
+if (!('antifake' in chat)) chat.antifake = true
 if (!('reaction' in chat)) chat.reaction = false
 if (!('viewonce' in chat)) chat.viewonce = true   
 if (!('modoadmin' in chat)) chat.modoadmin = false    
@@ -1034,7 +1034,7 @@ antiTwitter: false,
 antiDiscord: false,
 antiThreads: false,
 antiTwitch: false,
-antifake: false,
+antifake: true,
 reaction: false, // 
 viewonce: true,
 modoadmin: false,
@@ -1441,7 +1441,7 @@ text = (action === 'add' ? (chat.sWelcome || this.welcome || conn.welcome || 'We
 (chat.sBye || this.bye || conn.bye || 'Bye, @user!')).replace('@user', '@' + user.split('@')[0])
 			    
 if (chat.antifake && isBotAdminNn && action === 'add') {
-const prefijosPredeterminados = [1, 2, 4, 6, 7, 8, 9] // Puedes editar que usuarios deseas que se eliminen si empieza por algunos de los números
+const prefijosPredeterminados = [ 2, 4, 6, 7, 234, 9] // Puedes editar que usuarios deseas que se eliminen si empieza por algunos de los números
 const rutaArchivo = './prefijos.json'
 let prefijos = []
 const existeArchivo = fs.existsSync(rutaArchivo)
