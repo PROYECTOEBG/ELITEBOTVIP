@@ -1,10 +1,20 @@
+
+
+
+
+
+
+
+
+
+
 let handler = async(m, { user, isOwner, isAdmin, conn, text, participants, args, command }) => {
 if (!(isAdmin || isOwner || user)) {
 global.dfail('Admin', m, conn)
 throw false
 }
 let pesan = args.join` `
-let oi = ``VK     OFF`
+let oi = `VK     OFF ${pesan}`
 let teks = `${oi}\n`
 teks += `_Reglas Generales_
 
@@ -47,11 +57,10 @@ _Proceso de Reclamaciones_
 
 1. Los miembros pueden presentar reclamaciones a contacto que se llama valak.
 2. Los líderes deben investigar y resolver reclamaciones de manera justa.
-3. Los miembros pueden apelar decisiones a un líder superior.
-`
+3. Los miembros pueden apelar decisiones a un líder superior.`
 conn.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id) }, )
 }
 handler.help = ['smsf20 <mesaje>','fem20 <mesaje>']
 handler.tags = ['group']
-handler.command = /^(reglasvk)$/i
+handler.command = /^(scrims|scrim)$/i
 export default handler
