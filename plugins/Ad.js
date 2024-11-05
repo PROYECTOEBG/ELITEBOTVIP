@@ -36,7 +36,7 @@ return
   return !1;
 };
 
-handler.command = ['advertir', 'advertencia', 'warn', 'warning'];
+handler.command = ['advertir', 'advertencia', 'warn', 'adv'];
 handler.group = true;
 handler.admin = true;
 handler.botAdmin = true;
