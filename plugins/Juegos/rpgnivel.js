@@ -78,7 +78,7 @@ let tex = `╭━━〔 𝙈𝙄 𝙀𝙓𝙋𝙀𝙍𝙄𝙀𝙉𝘾𝙄𝘼 �
 ┃ ⏱ *FECHA* : 
 ┃ *${week}, ${date}*
 ┃┈ ┈ ┈
-┃ 👤 *TOTAL USUARIOS* : *${Object.keys(global.db.data.users).length}* 
+┃ ©2023 EliteBotGlobal - 
 ╰━━━━━`
 await conn.sendFile(m.chat, pp, 'gata.jpg', tex, fkontak, { mentions: [aa,] })
 /*await conn.sendButton(m.chat, tex, wm, [['𝙀𝙭𝙥𝙚𝙧𝙞𝙚𝙣𝙘𝙞𝙖 𝙥𝙤𝙧 𝘿𝙞𝙖𝙢𝙖𝙣𝙩𝙚 ⚡', '.buy'],
