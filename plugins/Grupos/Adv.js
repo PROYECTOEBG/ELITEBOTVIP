@@ -1,45 +1,43 @@
+const handler = async (m, { conn, text, command, usedPrefix }) => {
+// if (m.mentionedJid.includes(conn.user.jid)) return; // Evitar advertir al bot mismo
+const pp = 'https://i.imgur.com/vWnsjh8.jpg'
+let number, ownerNumber, aa, who;
+if (m.isGroup) { 
+who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text; 
+} else who = m.chat;
+  const user = global.db.data.users[who];
+  const usuario = conn.user.jid.split`@`[0] + '@s.whatsapp.net'
+  const bot = global.db.data.settings[conn.user.jid] || {};
+  const dReason = 'Sin motivo';
+  const msgtext = text || dReason 
+  const sdms = msgtext.replace(/@\d+-?\d* /g, '');
+  const warntext = `*❌ Etiquete a una persona o responda a un mensaje del grupo para advertir al usuario*\n\n*Ejemplo:*\n*${usedPrefix + command} @tag*`;
+  if (!who) {
+return m.reply(warntext, m.chat, { mentions: conn.parseMention(warntext) });
+  }
 
-let war = global.maxwarn
-let handler = async (m, { conn, text, args, groupMetadata, usedPrefix, command }) => {      
-        let who
-        if (m.isGroup) who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : false
-        else who = m.chat
-        if (!who) throw `Etiqueta o menciona a alguien\n\nEjemplo: ${usedPrefix + command} @user`
-        if (!(who in global.db.data.users)) throw `El usuario no se encuentra en mi base de datos dile que escriba algo y que no sea adorno en el grupo.`
-        let name = conn.getName(m.sender)
-        let warn = global.db.data.users[who].warn
-        if (warn < war) {
-            global.db.data.users[who].warn += 1
-            m.reply(`
-*Usuario Advertido* 
+for (let i = 0; i < global.owner.length; i++) {
+ownerNumber = global.owner[i][0];
+if (usuario.replace(/@s\.whatsapp\.net$/, '') === ownerNumber) {
+aa = ownerNumber + '@s.whatsapp.net'
+await conn.reply(m.chat, `…`, m, { mentions: [aa] })
+return
+}}
 
-*Admin:* ${name}
-*Usuario:* @${who.split`@`[0]}
-*Warns:* ${warn + 1}/${war}
-*Razon:* ${text}`, null, { mentions: [who] }) 
-            m.reply(`
-*ADVERTENCIA*
-Recibiste una advertencia de un admin
+  user.warn += 1;
+  await m.reply(`${user.warn == 1 ? `*@${who.split`@`[0]}*` : `*@${who.split`@`[0]}*`} 𝚁𝙴𝙲𝙸𝙱𝙸𝙾 𝚄𝙽𝙰 𝙰𝙳𝚅𝙴𝚁𝚃𝙴𝙽𝙲𝙸𝙰 𝙴𝙽 𝙴𝚂𝚃𝙴 𝙶𝚁𝚄𝙿𝙾!\nMotivo: ${sdms}\n*Advertencias: ${user.warn}/4*`, null, { mentions: [who] },
+  );
+  if (user.warn >= 4) {
+    user.warn = 0;
+    await m.reply(`𝚃𝙴 𝙻𝙾 𝙰𝙳𝚅𝙴𝚁𝚃𝙸 𝚅𝙰𝚁𝙸𝙰𝚂 𝚅𝙴𝙲𝙴𝚂!!\n*@${who.split`@`[0]}* 𝚂𝚄𝙿𝙴𝚁𝙰𝚂𝚃𝙴 𝙻𝙰𝚂 *4* 𝙰𝙳𝚅𝙴𝚁𝚃𝙴𝙽𝙲𝙸𝙰𝚂, 𝙰𝙷𝙾𝚁𝙰 𝚂𝙴𝚁𝙰𝚂 𝙴𝙻𝙸𝙼𝙸𝙽𝙰𝙳𝙾/𝙰 👽`, null, { mentions: [who] },
+    );
+    await conn.groupParticipantsUpdate(m.chat, [who], 'remove');
+  }
+  return !1;
+};
 
-*Warns:* ${warn + 1}/${war} 
-Si recibes *${war}* advertencias serás eliminado automáticamente del grupo`, who)
-        } else if (warn == war) {
-            global.db.data.users[who].warn = 0
-            m.reply(`El usuario superó las *${war}* advertencias por lo tanto será eliminado`)
-            await time(3000)
-            await conn.groupParticipantsUpdate(m.chat, [who], 'remove')
-            m.reply(`Fuiste eliminado del grupo *${groupMetadata.subject}* porque ha sido advertido *${war}* veces`, who)
-        }
-}
-handler.help = ['advertencia @user']
-handler.tags = ['group']
-handler.command = ['advertencia','adv'] 
-handler.group = true
-handler.admin = true
-handler.botAdmin = true
-
-export default handler
-
-const time = async (ms) => {
-            return new Promise(resolve => setTimeout(resolve, ms));
-}
+handler.command = ['advertir', 'advertencia', 'warn', 'adv'];
+handler.group = true;
+handler.admin = true;
+handler.botAdmin = true;
+export default handler;
