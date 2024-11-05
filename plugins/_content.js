@@ -75,7 +75,7 @@ global.img18 = 'https://qu.ax/HCt.jpg'
 
 global.logogit = 'https://qu.ax/RzKF.jpg'
 
-global.gataVidMenu = ['https://qu.ax/AAvg.mp4', 'https://qu.ax/SeFS.mp4', 'https://qu.ax/NqZN.mp4'].getRandom()
+global.gataVidMenu = ['https://qu.ax/bEYc.jpg', 'https://qu.ax/bEYc.jpg', 'https://qu.ax/bEYc.jpg'].getRandom()
 global.gataMenu = ['./media/menus/sinfoto3.jpg']
 global.gataImg = [imagen1, imagen2, imagen3, imagen4, imagen5, imagen6, imagen7, imagen8, imagen9, imagen10, imagen11, imagen12, imagen13].getRandom()
 global.bermuda = [bermuda]
