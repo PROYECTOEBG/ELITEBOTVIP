@@ -67,17 +67,21 @@ let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? c
 let mentionedJid = [who]
 let username = conn.getName(who)
 
-let tex = `╭━━〔 𝙈𝙄 𝙀𝙓𝙋𝙀𝙍𝙄𝙀𝙉𝘾𝙄𝘼 〕━━
-
-┃ 🥳 *NOMBRE* : *${username}*
-┃ 🧿 *ROL* : ${role}
-┃ 💰 *ELITE COINS* : *${money}*
-┃ 💸 *DOLARES* : *${joincount}*
-┃ 💎 *DIAMANTES* : *${limit}*
-┃ ⛏ *EXPERIENCIA* : *${user.exp}*
-┃ ⏱ *FECHA* : 
+let tex = `╭━━ 𝘾𝙐𝙀𝙉𝙏𝘼 𝘿𝙀 𝘽𝘼𝙉𝘾𝘼𝙍𝙄𝘼 
 ┃ *${week}, ${date}*
-┃┈ ┈ ┈
+┃ ┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈
+┃ 👤 *NOMBRE* : *${username}*
+┃ ┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈
+┃ 🧿 *ROL* : ${role}
+┃ ┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈
+┃ 💰 *ELITE COINS* : *${money}*
+┃ ┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈
+┃ 💸 *DOLARES* : *${joincount}*
+┃ ┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈
+┃ 💎 *DIAMANTES* : *${limit}*
+┃ ┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈
+┃ ⛏ *EXPERIENCIA* : *${user.exp}*
+┃ ┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈
 ┃ ©2023 EliteBotGlobal - 
 ╰━━━━━`
 await conn.sendFile(m.chat, pp, 'gata.jpg', tex, fkontak, { mentions: [aa,] })
@@ -88,7 +92,7 @@ await conn.sendFile(m.chat, pp, 'gata.jpg', tex, fkontak, { mentions: [aa,] })
 
 handler.help = ['infomenu'].map(v => v + 'able <option>')
 handler.tags = ['group', 'owner']
-handler.command = /^(xp|experiencia|nivel|esperiensia|experiensia|exp|minivel|coins)$/i
+handler.command = /^(cuenta|experiencia|nivel|banco|experiensia|exp|minivel|coins)$/i
 handler.exp = 0
 export default handler
 
