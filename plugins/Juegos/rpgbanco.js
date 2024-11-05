@@ -67,7 +67,7 @@ let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? c
 let mentionedJid = [who]
 let username = conn.getName(who)
 
-let tex = `╭━━ 𝘾𝙐𝙀𝙉𝙏𝘼 𝘿𝙀 𝘽𝘼𝙉𝘾𝘼𝙍𝙄𝘼 
+let tex = `╭━━ 𝘾𝙐𝙀𝙉𝙏𝘼 𝘽𝘼𝙉𝘾𝘼𝙍𝙄𝘼 
 ┃ *${week}, ${date}*
 ┃ ┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈┈ ┈ ┈
 ┃ 👤 *NOMBRE* : *${username}*
