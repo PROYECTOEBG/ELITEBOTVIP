@@ -5,7 +5,7 @@ import fs from 'fs'
 let handler = async (m, { conn, text, command, usedPrefix }) => {
     let resp, imagen, q
     if (q == undefined ) {q = m}
-let pp = fs.readFileSync(join(media, 'pictures/warn.jpg'))
+let pp = fs.readFileSync(join(, 'pictures/warn.jpg'))
 let who
 if (m.isGroup) {who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text
 } else {who = m.chat}
