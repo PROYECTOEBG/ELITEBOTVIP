@@ -20,3 +20,4 @@ handler.command = ['restart','reiniciar']
 handler.rowner = true
 export default handler
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+*/
