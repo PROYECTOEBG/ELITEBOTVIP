@@ -88,7 +88,7 @@ await conn.sendFile(m.chat, pp, 'gata.jpg', tex, fkontak, { mentions: [aa,] })
 
 handler.help = ['infomenu'].map(v => v + 'able <option>')
 handler.tags = ['group', 'owner']
-handler.command = /^(xp|experiencia|nivel|esperiensia|experiensia|exp|coinsgata|coins)$/i
+handler.command = /^(xp|experiencia|nivel|esperiensia|experiensia|exp|minivel|coins)$/i
 handler.exp = 0
 export default handler
 
