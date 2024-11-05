@@ -1,43 +1,60 @@
-const handler = async (m, { conn, text, command, usedPrefix }) => {
-// if (m.mentionedJid.includes(conn.user.jid)) return; // Evitar advertir al bot mismo
-const pp = 'https://i.imgur.com/vWnsjh8.jpg'
-let number, ownerNumber, aa, who;
-if (m.isGroup) { 
-who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text; 
-} else who = m.chat;
-  const user = global.db.data.users[who];
-  const usuario = conn.user.jid.split`@`[0] + '@s.whatsapp.net'
-  const bot = global.db.data.settings[conn.user.jid] || {};
-  const dReason = 'Sin motivo';
-  const msgtext = text || dReason 
-  const sdms = msgtext.replace(/@\d+-?\d* /g, '');
-  const warntext = `*❌ Etiquete a una persona o responda a un mensaje del grupo para advertir al usuario*\n\n*Ejemplo:*\n*${usedPrefix + command} @tag*`;
-  if (!who) {
-return m.reply(warntext, m.chat, { mentions: conn.parseMention(warntext) });
-  }
+import fetch from 'node-fetch';
 
-for (let i = 0; i < global.owner.length; i++) {
-ownerNumber = global.owner[i][0];
-if (usuario.replace(/@s\.whatsapp\.net$/, '') === ownerNumber) {
-aa = ownerNumber + '@s.whatsapp.net'
-await conn.reply(m.chat, `…`, m, { mentions: [aa] })
-return
-}}
+// Handler principal para la declaración
+let handler = async (m, { conn, usedPrefix, command }) => {
+    if (command === 'declaracion') {
+        const imageUrl = 'https://qu.ax/VccqK.jpg'; // URL de la imagen de la confesión
+        const messageText = `Hola Valentina \nVengo a decirte que de hace mucho me gustas pero no fui capaz de demostrar amor y cariño, te quiero pedir disculpas por mi comportamiento en dejarte hablar\nPero con el tiempo me di cuenta que el error fue mio y quiero pedirte disculpas\nEstraño los abrazos que nos dabamos demostraban cariño, realmente quiero que me perdones y empezar otra vez. \n\n¿ Me Perdonas ?\n\n\n`;
 
-  user.warn += 1;
-  await m.reply(`${user.warn == 1 ? `*@${who.split`@`[0]}*` : `*@${who.split`@`[0]}*`} 𝚁𝙴𝙲𝙸𝙱𝙸𝙾 𝚄𝙽𝙰 𝙰𝙳𝚅𝙴𝚁𝚃𝙴𝙽𝙲𝙸𝙰 𝙴𝙽 𝙴𝚂𝚃𝙴 𝙶𝚁𝚄𝙿𝙾!\nMotivo: ${sdms}\n*Advertencias: ${user.warn}/4*`, null, { mentions: [who] },
-  );
-  if (user.warn >= 4) {
-    user.warn = 0;
-    await m.reply(`𝚃𝙴 𝙻𝙾 𝙰𝙳𝚅𝙴𝚁𝚃𝙸 𝚅𝙰𝚁𝙸𝙰𝚂 𝚅𝙴𝙲𝙴𝚂!!\n*@${who.split`@`[0]}* 𝚂𝚄𝙿𝙴𝚁𝙰𝚂𝚃𝙴 𝙻𝙰𝚂 *4* 𝙰𝙳𝚅𝙴𝚁𝚃𝙴𝙽𝙲𝙸𝙰𝚂, 𝙰𝙷𝙾𝚁𝙰 𝚂𝙴𝚁𝙰𝚂 𝙴𝙻𝙸𝙼𝙸𝙽𝙰𝙳𝙾/𝙰 👽`, null, { mentions: [who] },
-    );
-    await conn.groupParticipantsUpdate(m.chat, [who], 'remove');
-  }
-  return !1;
+        await conn.sendButton(m.chat, messageText, 'Perdoname', imageUrl, [
+            ['Si Te Perdono', `${usedPrefix}#Si`],
+            ['No Te Perdono', `${usedPrefix}#No`]
+        ], m);
+    }
 };
 
-handler.command = ['advertir', 'advertencia', 'warn', 'adv'];
-handler.group = true;
-handler.admin = true;
-handler.botAdmin = true;
+// Acción si el usuario elige "Sí"
+let siHandler = async (m, { conn, usedPrefix, command }) => {
+    if (command === 'si') {
+        const yesImageUrl = 'https://qu.ax/abKS.jpg'; // Imagen para la respuesta "Sí"
+        const yesAudioUrl = 'https://qu.ax/lyds.mp3'; // Audio para la respuesta "Sí"
+        const yesMessageText = `¡Qué alegría que hayas aceptado! Me siento increíblemente feliz y emocionado por lo que está por venir. Desde que te conocí, he soñado con este momento, y ahora que es real, no puedo esperar para vivir momentos inolvidables contigo.\n\nGracias por darme esta oportunidad. 💖`;
+
+        await conn.sendMessage(m.chat, { 
+            image: { url: yesImageUrl }, 
+            caption: yesMessageText
+        }, { quoted: m });
+
+        await conn.sendMessage(m.chat, { 
+            audio: { url: yesAudioUrl }, 
+            mimetype: 'audio/mpeg'
+        }, { quoted: m });
+    }
+};
+
+// Acción si el usuario elige "No"
+let noHandler = async (m, { conn, usedPrefix, command }) => {
+    if (command === 'no') {
+        const noImageUrl = 'https://qu.ax/eFBg.jpg'; // Imagen para la respuesta "No"
+        const noMessageText = `Entiendo y agradezco tu sinceridad. Aunque no haya sido el resultado que esperaba, valoro mucho nuestra amistad y quiero que sepas que seguiré aquí para ti. 😊`;
+        const noAudioUrl = 'https://qu.ax/Pgxz.mp3'; // Audio para la respuesta "No"
+
+        await conn.sendMessage(m.chat, { 
+            image: { url: noImageUrl }, 
+            caption: noMessageText
+        }, { quoted: m });
+
+        await conn.sendMessage(m.chat, { 
+            audio: { url: noAudioUrl }, 
+            mimetype: 'audio/mpeg'
+        }, { quoted: m });
+    }
+};
+
+// Vincular los comandos al texto "#declaracion", "si", y "no"
+handler.command = ['declaracion', 'si', 'no'];
+handler.tags = ["downloader"]
+handler.help = ["declaracion"];
+
+// Exportar el handler
 export default handler;
