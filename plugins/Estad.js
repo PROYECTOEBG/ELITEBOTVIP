@@ -14,6 +14,7 @@ let muptime = clockString(_muptime)
 const chats = Object.entries(conn.chats).filter(([id, data]) => id && data.isChats)
 const groupsIn = chats.filter(([id]) => id.endsWith('@g.us')) 
 const used = process.memoryUsage()
+const _uptime = process.uptime() * 1000;
 const uptime = clockString(_uptime);
 const taguser = '@' + m.sender.split('@s.whatsapp.net')[0];
 let yaemori = `╭━━━━━━━━━━━━━━✠
