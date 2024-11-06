@@ -6,11 +6,11 @@ let pp = ['https://qu.ax/Tvpv.mp4', 'https://qu.ax/Tvpv.mp4','https://qu.ax/Tvpv
 let who
 if (m.isGroup) who = m.mentionedJid[0]
 else who = m.chat
-if (!who) throw '😸 *Etiqueta al usuario que quieres saludar.* 👋\nEjemplo:\n.saludar @kevin'
+if (!who) throw '» *Etiqueta al usuario que quieres saludar.*\nEjemplo:\n.saludar @kevin'
 let name2 = conn.getName(who)
 let name = conn.getName(m.sender)
 
-await conn.sendMessage(m.chat, { video: { url: pp.getRandom() }, gifPlayback: true, caption: `*${name}*` + ' está saludando a' + ` *${name2}*` + ' 🙌', contextInfo: fakeChannel }, { quoted: m })
+await conn.sendMessage(m.chat, { video: { url: pp.getRandom() }, gifPlayback: true, caption: `*${name}*` + '𝘦𝘴𝘵𝘢 𝘴𝘢𝘭𝘶𝘥𝘢𝘯𝘥𝘰 𝘢' + ` *${name2}*` + ' 🙌', contextInfo: fakeChannel }, { quoted: m })
 }
 handler.help = ['saludar <@user>']
 handler.tags = ['fun']
