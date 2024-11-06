@@ -1,30 +1,37 @@
-const handler = async (m, {conn}) => {
-  try {
-    const pp = imagen6;
-    const img = await(await fetch('https://chat.whatsapp.com/GzqYw7fK9CADEWEtfL6804')).buffer();
-    const _uptime = process.uptime() * 1000;
-    const uptime = clockString(_uptime);
-    const taguser = '@' + m.sender.split('@s.whatsapp.net')[0];
-    const str = `╭━━━━━━━━━━━━━━✠
-┃  *» Hola, buen dia*
-┃    ${taguser}
+let handler = async (m, { conn, isRowner}) => {
+let _muptime
+let totalreg = Object.keys(global.db.data.users).length
+let totalchats = Object.keys(global.db.data.chats).length
+let pp = imagen6
+if (process.send) {
+process.send('uptime')
+_muptime = await new Promise(resolve => {
+process.once('message', resolve)
+setTimeout(resolve, 1000)
+}) * 1000
+}
+let muptime = clockString(_muptime)
+const chats = Object.entries(conn.chats).filter(([id, data]) => id && data.isChats)
+const groupsIn = chats.filter(([id]) => id.endsWith('@g.us')) 
+const used = process.memoryUsage()
+const _uptime = process.uptime() * 1000;
+const uptime = clockString(_uptime);
+const taguser = '@' + m.sender.split('@s.whatsapp.net')[0];
+let yaemori = `╭━━━━━━━━━━━━━━✠
+┃  *» Buen día mi creador*
+┃    *Kevv* 
 ┃
 ┃ 〽️ Estoy activo desde: ${uptime}
 ┃  
-╰━ 𝗘𝗹𝗶𝘁𝗲𝗕𝗼𝘁𝗚𝗹𝗼𝗯𝗮𝗹`.trim();
-    if (m.isGroup) {
-      conn.sendMessage(m.chat, {text: str.trim(), mentions: [...str.matchAll(/@([0-9]{5,16}|0)/g)].map((v) => v[1] + '@s.whatsapp.net'), contextInfo: {forwardingScore: 9999999, isForwarded: true, mentionedJid: [...str.matchAll(/@([0-9]{5,16}|0)/g)].map((v) => v[1] + '@s.whatsapp.net'), "externalAdReply": {"showAdAttribution": true, "containsAutoReply": true, "renderLargerThumbnail": true, "title": global.titulowm, "containsAutoReply": true, "mediaType": 1, "thumbnail": pp, "mediaUrl": `https://www.atom.bio/theshadowbrokers-team`, "sourceUrl": `https://chat.whatsapp.com/GzqYw7fK9CADEWEtfL6804`}}}, {quoted: m});
-    } else {
-      const fkontak2 = {'key': {'participants': '0@s.whatsapp.net', 'remoteJid': 'status@broadcast', 'fromMe': false, 'id': 'Halo'}, 'message': {'contactMessage': {'vcard': `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`}}, 'participant': '0@s.whatsapp.net'};
-      conn.sendMessage(m.chat, {text: str.trim(), mentions: [...str.matchAll(/@([0-9]{5,16}|0)/g)].map((v) => v[1] + '@s.whatsapp.net'), contextInfo: {forwardingScore: 9999999, isForwarded: true, mentionedJid: [...str.matchAll(/@([0-9]{5,16}|0)/g)].map((v) => v[1] + '@s.whatsapp.net'), "externalAdReply": {"showAdAttribution": true, "containsAutoReply": true, "renderLargerThumbnail": true, "title": global.titulowm, "containsAutoReply": true, "mediaType": 1, "thumbnail": pp, "mediaUrl": `https://www.atom.bio/theshadowbrokers-team`, "sourceUrl": `https://chat.whatsapp.com/GzqYw7fK9CADEWEtfL6804`}}}, {quoted: fkontak2});
-    }
-  } catch {
-  }
-};
-handler.help = ['estado'];
-handler.tags = ['main'];
-handler.rowner = true;
-handler.command = /^(estado|status|estate|state|stado|stats|runtime|uptime)$/i;
+╰━ 𝗘𝗹𝗶𝘁𝗲𝗕𝗼𝘁𝗚𝗹𝗼𝗯𝗮𝗹`
+await conn.sendFile(m.chat, pp, 'yaemori.jpg', yaemori, fkontak, null)
+}
+
+handler.customPrefix = /estado|estatus/i 
+handler.command = new RegExp
+handler.exp = 0
+
+
 export default handler;
 function clockString(ms) {
   const d = isNaN(ms) ? '--' : Math.floor(ms / 86400000);
@@ -33,7 +40,3 @@ function clockString(ms) {
   const s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60;
   return [`\n┃ ❖ ` + d, ' Día(s) ', `\n┃ ❖ ` + h, ' Hora(s) ', `\n┃ ❖ ` + m, ' Minuto(s) ', `\n┃ ❖ ` + s, ' Segundo(s) '].map((v) => v.toString().padStart(2, 0)).join('');
 }
-
-
-
-
