@@ -11,6 +11,7 @@ setTimeout(resolve, 1000)
 }) * 1000
 }
 let muptime = clockString(_muptime)
+ const img = await(await fetch('https://chat.whatsapp.com/GzqYw7fK9CADEWEtfL6804')).buffer();
 const chats = Object.entries(conn.chats).filter(([id, data]) => id && data.isChats)
 const groupsIn = chats.filter(([id]) => id.endsWith('@g.us')) 
 const used = process.memoryUsage()
