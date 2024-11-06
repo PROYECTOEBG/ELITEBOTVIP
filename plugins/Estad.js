@@ -27,10 +27,10 @@ let yaemori = `╭━━━━━━━━━━━━━━✠
 await conn.sendFile(m.chat, pp, 'yaemori.jpg', yaemori, fkontak, null)
 }
 
-
+handler.customPrefix = /payaso|🤡/i
 handler.help = ['ttp <teks>']
 handler.tags = ['sticker']
-handler.command = /^ttp6$/i 
+
 
 export default handler;
 function clockString(ms) {
