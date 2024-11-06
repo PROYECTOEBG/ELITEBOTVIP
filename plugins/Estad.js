@@ -1,19 +1,7 @@
-let handler = async (m, { conn, isRowner}) => {
-let _muptime
-let totalreg = Object.keys(global.db.data.users).length
-let totalchats = Object.keys(global.db.data.chats).length
-let pp = imagen6
-if (process.send) {
-process.send('uptime')
-_muptime = await new Promise(resolve => {
-process.once('message', resolve)
-setTimeout(resolve, 1000)
-}) * 1000
-}
-let muptime = clockString(_muptime)
-const chats = Object.entries(conn.chats).filter(([id, data]) => id && data.isChats)
-const groupsIn = chats.filter(([id]) => id.endsWith('@g.us')) 
-const used = process.memoryUsage()
+const handler = async (m, {conn}) => {
+  try {
+    const pp = imagen6;
+    
  const img = await(await fetch('https://chat.whatsapp.com/GzqYw7fK9CADEWEtfL6804')).buffer();
 const _uptime = process.uptime() * 1000;
 const uptime = clockString(_uptime);
