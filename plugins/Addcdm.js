@@ -1,11 +1,18 @@
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-let teks = text ? text : m.quoted && m.quoted.text ? m.quoted.text : ''
-if (!teks) throw `${lenguajeGB['smsAvisoMG']()} 𝙌𝙐𝙀 𝙀𝙎𝘾𝙍𝙄𝘽𝙄𝙊? 𝙐𝙎𝘼𝙍 𝙀𝙎𝙏𝙀 𝘾𝙊𝙈𝘼𝙉𝘿𝙊 𝘿𝙀 𝙇𝘼 𝙎𝙄𝙂𝙐𝙄𝙀𝙉𝙏𝙀 𝙁𝙊𝙍𝙈𝘼\n\n𝙀𝙅𝙀𝙈𝙋𝙇𝙊: *${usedPrefix + command}* Hola GataBot`
-let img = global.API('fgmods', '/api/maker/txt', { text: teks }, 'apikey')
-conn.sendFile(m.chat, img, 'img.png', `✍🏻 𝙀𝙎𝙏𝘼 𝙇𝙄𝙎𝙏𝙊!!\n${wm}`, m)}
-handler.help = ['txt']
-handler.tags = ['fun']
-handler.command = ['txt', 'escribir', 'escribe']
+// Función creada por Katashi Fukushima. Está a libre edición de videos para el envío del saludo
 
+let handler = async (m, { conn, usedPrefix, command}) => {
+let pp = ['https://qu.ax/Tvpv.mp4', 'https://qu.ax/Tvpv.mp4','https://qu.ax/Tvpv.mp4']
+//let pp2 = 'https://tinyurl.com/294oahv9'
+let who
+if (m.isGroup) who = m.mentionedJid[0]
+else who = m.chat
+if (!who) throw '😸 *Etiqueta al usuario que quieres saludar.* 👋\nEjemplo:\n.saludar @kevin'
+let name2 = conn.getName(who)
+let name = conn.getName(m.sender)
+
+await conn.sendMessage(m.chat, { video: { url: pp.getRandom() }, gifPlayback: true, caption: `*${name}*` + ' está saludando a' + ` *${name2}*` + ' 🙌', contextInfo: fakeChannel }, { quoted: m })
+}
+handler.help = ['saludar <@user>']
+handler.tags = ['fun']
+handler.command = ['saludar', 'hola']
 export default handler
-  
