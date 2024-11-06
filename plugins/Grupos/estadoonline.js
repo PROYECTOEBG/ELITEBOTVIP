@@ -30,7 +30,7 @@ await conn.sendFile(m.chat, pp, 'yaemori.jpg', yaemori, fkontak, null)
 handler.customPrefix = /estado|estatus/i 
 handler.command = new RegExp
 handler.exp = 0
-
+handler.owner = true
 
 export default handler;
 function clockString(ms) {
