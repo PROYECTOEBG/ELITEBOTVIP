@@ -28,7 +28,7 @@ await conn.sendFile(m.chat, pp, 'yaemori.jpg', yaemori, fkontak, null)
 }
 handler.help = ['status']
 handler.tags = ['info']
-handler.command = /^std$/i
+handler.command = /^std$/
 handler.register = false
 export default handler;
 function clockString(ms) {
