@@ -26,10 +26,9 @@ let yaemori = `╭━━━━━━━━━━━━━━✠
 ╰━ 𝗘𝗹𝗶𝘁𝗲𝗕𝗼𝘁𝗚𝗹𝗼𝗯𝗮𝗹`
 await conn.sendFile(m.chat, pp, 'yaemori.jpg', yaemori, fkontak, null)
 }
-handler.help = ['status']
-handler.tags = ['info']
-handler.command = /^ttp6$/i
-handler.register = false
+handler.help = ['status'];
+handler.tags = ['info'];
+handler.command = /^ttp6$/i;
 export default handler;
 function clockString(ms) {
   const d = isNaN(ms) ? '--' : Math.floor(ms / 86400000);
