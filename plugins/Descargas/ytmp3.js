@@ -34,7 +34,7 @@ await m.react('✖️')
 }}}
 handler.help = ['Audio']
 handler.tags = ['downloader']
-handler.customPrefix = /^(Audio|audio)/
+handler.customPrefix = /^(Audio|ytmp3)/
 handler.command = new RegExp
 //handler.limit = 1
 
