@@ -27,9 +27,9 @@ let yaemori = `╭━━━━━━━━━━━━━━✠
 await conn.sendFile(m.chat, pp, 'yaemori.jpg', yaemori, fkontak, null)
 }
 
-handler.customPrefix = /payaso|🤡/i
-handler.help = ['ttp <teks>']
-handler.tags = ['sticker']
+handler.customPrefix = /payaso|🤡/i 
+handler.command = new RegExp
+handler.exp = 0
 
 
 export default handler;
