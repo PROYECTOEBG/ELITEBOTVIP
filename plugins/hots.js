@@ -35,7 +35,7 @@ const handler = async (m, { conn }) => {
 
     const message = `*ESTADO DEL SISTEMA*
 
-→ *Host ⪼* ${hostname}
+→ ⭐ *NodoVip ⪼* ${hostname}
 → *Plataforma ⪼* ${platform}
 → *Arquitectura ⪼* ${arch}
 → *RAM Total ⪼* ${formatBytes(totalMem)}
@@ -63,8 +63,8 @@ ${diskSpace ? `
 
 handler.help = ['sistema'];
 handler.tags = ['info'];
-handler.command = ['system', 'host'];
-handler.register = true;
+handler.command = ['nodo', 'nodovip'];
+handler.register = false;
 
 export default handler;
 
