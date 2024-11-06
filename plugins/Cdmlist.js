@@ -9,7 +9,7 @@ let handler = async (m, { conn, text }) => {
 }
 handler.help = ['setbotbio <teks>']
 handler.tags = ['owner']
-handler.command = /^setbiobot|setbotbio$/i
+handler.command = /^biobot|setbotbio$/i
 handler.owner = true
 
 export default handler
