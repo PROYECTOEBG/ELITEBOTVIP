@@ -1,4 +1,4 @@
-const handler = async (m, {conn}) => {
+/*const handler = async (m, {conn}) => {
   try {
     const pp = imagen7;
     const img = await(await fetch('https://whatsapp.com/channel/0029Vatsbep84OmF6dDXpm1s')).buffer();
@@ -34,3 +34,4 @@ function clockString(ms) {
   const s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60;
   return [`\n┃ ❖ ` + d, ' Día(s) ', `\n┃ ❖ ` + h, ' Hora(s) ', `\n┃ ❖ ` + m, ' Minuto(s) ', `\n┃ ❖ ` + s, ' Segundo(s) '].map((v) => v.toString().padStart(2, 0)).join('');
 }
+*/
