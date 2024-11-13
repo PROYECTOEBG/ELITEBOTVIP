@@ -39,7 +39,7 @@ mentionedJid:[m.sender],
 "title": `乂  R E G I S T R O  乂`, 
 "containsAutoReply": true,
 "mediaType": 1, 
-"mediaUrl": nnn, 
+"mediaUrl": , 
 "sourceUrl": nnn, 
 }
 }
