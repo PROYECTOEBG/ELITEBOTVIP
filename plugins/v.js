@@ -35,7 +35,7 @@ mentionedJid:[m.sender],
 "externalAdReply": {
 "showAdAttribution": true,
 "renderLargerThumbnail": true,
-"thumbnail": gataImg.getRandom(), 
+"thumbnail": ['./media/menus/sinfoto3.jpg'],
 "title": `乂  R E G I S T R O  乂`, 
 "containsAutoReply": true,
 "mediaType": 1, 
