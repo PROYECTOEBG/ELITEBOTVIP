@@ -38,8 +38,7 @@ mentionedJid:[m.sender],
 "thumbnail": ['./media/menus/sinfoto3.jpg'],
 "title": `乂  R E G I S T R O  乂`, 
 "containsAutoReply": true,
-"mediaType": 1, 
-"mediaUrl": , 
+"mediaType": 1,
 "sourceUrl": , 
 }
 }
