@@ -40,7 +40,7 @@ mentionedJid:[m.sender],
 "containsAutoReply": true,
 "mediaType": 1, 
 "mediaUrl": , 
-"sourceUrl": nnn, 
+"sourceUrl": , 
 }
 }
 }, { quoted: fkontak })  
