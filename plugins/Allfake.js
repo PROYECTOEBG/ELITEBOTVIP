@@ -110,4 +110,4 @@ global.fake = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo
 global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: '120363220442272685@newsletter', newsletterName: "✨ 𝑮𝒐𝒌𝒖𝑩𝒐𝒕-𝑴𝑫 𝑵𝒆𝒘 𝑪𝒉𝒂𝒏𝒏𝒆𝒍 🌹", serverMessageId: -1 }
 }}, { quoted: m }}
 
-export default handle
+export default handler
