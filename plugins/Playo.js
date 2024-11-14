@@ -2,7 +2,7 @@ import yts from 'yt-search';
 
 let handler = async (m, { conn, text, args, isPrems, isOwner, usedPrefix, command }) => {
     
-    if (!text) throw `🌹 Te Faltó Un Link De Un Video `, m)}
+   // if (!text) throw `🌹 Te Faltó Un Link De Un Video `, m)}
     
     await conn.sendMessage(m.chat, { react: { text: '🥀', key: m.key }});
     
