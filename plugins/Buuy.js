@@ -16,4 +16,4 @@ handler.command = /^(shippp|loves)$/i
 
 handler.register = false
 
-export default handle
+export default handler
