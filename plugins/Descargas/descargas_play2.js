@@ -2,7 +2,7 @@ import yts from 'yt-search';
 
 let handler = async (m, { conn, text, args, isPrems, isOwner, usedPrefix, command }) => {
     
-    if (!text) throw `*[🌹] Complementa tu petición con algún enlace de YouTube.*\n_(Puedes hacer una búsqueda utilizando el comando ${usedPrefix}yts)_\n _🌷.- Ejemplo:_ *${usedPrefix + command}* https://youtu.be/sBKR6aUorzA?si=TmC01EGbXUx2DUca`;
+    if (!text) throw `Complementa tu petición con algún título de YouTube.\nEjemplo:\n.play2 Feid luna `;
     
     await conn.sendMessage(m.chat, { react: { text: '🥀', key: m.key }});
     
@@ -24,9 +24,7 @@ let handler = async (m, { conn, text, args, isPrems, isOwner, usedPrefix, comman
     const downloadUrl = delius.data.download.url;
 
     // Crear el mensaje informativo del video/audio
-    let body = `*『 𝐘 𝐮 𝐤 𝐢 _ 𝐒 𝐮 𝐨 𝐮 - 𝐁 𝐨 𝐭 』*
-
- *☊.- 𝚃𝚒́𝚝𝚞𝚕𝚘:* ${vid.title || 'Desconocido'}
+    let body = `*☊.- 𝚃𝚒́𝚝𝚞𝚕𝚘:* ${vid.title || 'Desconocido'}
  *♕.- 𝙰𝚞𝚝𝚘𝚛:* ${vid.author?.name || 'Desconocido'}
  *⛨.- 𝙲𝚊𝚗𝚊𝚕:* ${vid.author.url} || 'Desconocido'}
  *🝓.- 𝙵𝚎𝚌𝚑𝚊 𝚍𝚎 𝙿𝚞𝚋𝚕𝚒𝚌𝚊𝚌𝚒𝚘́𝚗:* ${vid.ago || 'Desconocido'}
@@ -34,8 +32,7 @@ let handler = async (m, { conn, text, args, isPrems, isOwner, usedPrefix, comman
  *🜚.- 𝚅𝚒𝚜𝚝𝚊𝚜:* ${`${vid.views || 'Desconocido'}`}
  *🝤.- 𝙻𝚒𝚗𝚔:* ${videoUrl}\n
 *🝩.- 𝙴𝚗𝚟𝚒𝚊𝚗𝚍𝚘 𝚟𝚒𝚍𝚎𝚘, 𝚊𝚐𝚞𝚊𝚝𝚊 𝚞𝚗 𝚖𝚘𝚖𝚎𝚗𝚝𝚘...*
-
-> ৎ୭࠭͢𝒴𝓊𝓀𝒾_𝒮𝓊𝑜𝓊-𝐵𝑜𝓉𝐭ⷭ𓆪͟͞ `;
+> EliteBotGlobal`;
 
     // Enviar el mensaje informativo con la imagen
     await conn.sendMessage(m.chat, { 
@@ -48,5 +45,4 @@ let handler = async (m, { conn, text, args, isPrems, isOwner, usedPrefix, comman
 };
 
 handler.command = ['play2'];
-handler.limit = 5;
 export default handler;
