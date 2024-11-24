@@ -5,21 +5,20 @@ import axios from 'axios'
 import { youtubedl, youtubedlv2 } from '@bochilteam/scraper'
 let handler = async (m, { conn, command, args, text, usedPrefix }) => {
 let q, v, yt, dl_url, ttl, size, lolhuman, lolh, n, n2, n3, n4, cap, qu, currentQuality   
-if (!text) throw `⭐ 𝘐𝘯𝘨𝘳𝘦𝘴𝘢 𝘦𝘭 𝘵𝘪́𝘵𝘶𝘭𝘰 𝘥𝘦 𝘭𝘢 𝘤𝘢𝘯𝘤𝘪𝘰́𝘯 𝘥𝘦 𝘚𝘱𝘰𝘵𝘪𝘧𝘺 𝘲𝘶𝘦 𝘥𝘦𝘴𝘦𝘢𝘴 𝘥𝘦𝘴𝘤𝘢𝘳𝘨𝘢𝘳.
+if (!text) throw `⭐ 𝘐𝘯𝘨𝘳𝘦𝘴𝘢 𝘦𝘭 𝘵𝘪́𝘵𝘶𝘭𝘰 𝘥𝘦 𝘭𝘢 𝘤𝘢𝘯𝘤𝘪𝘰́𝘯 𝘲𝘶𝘦 𝘥𝘦𝘴𝘦𝘢𝘴 𝘥𝘦𝘴𝘤𝘢𝘳𝘨𝘢𝘳.
 
 » 𝘌𝘫𝘦𝘮𝘱𝘭𝘰:
 ${usedPrefix + command} Cypher - Rich vagos `
 try {
-await m.react('⚡')
+await m.react('🎶')
 const yt_play = await search(args.join(" "))
 let additionalText = ''
-if (command === 'spotify') {
+if (command === 'play') {
 additionalText = ''
-} else if (command === 'play8') {
+} else if (command === 'play2') {
 additionalText = 'video 🎥'}
 await conn.sendMessage(m.chat, {
-text: `*⌈📀 SPOTIFY PREMIUM 📀⌋*
-01:27 ━━━━━⬤──── 05:48
+text: `01:27 ━━━━━⬤──── 05:48
 *⇄ㅤ   ◁   ㅤ  ❚❚ㅤ     ▷ㅤ   ↻*
 𝙀𝙡𝙞𝙩𝙚 𝘽𝙤𝙩 𝙂𝙡𝙤𝙗𝙖𝙡`, 
 contextInfo: {
@@ -33,7 +32,7 @@ renderLargerThumbnail: true
 }}} , { quoted: m })
 if (command == 'spotify') {	
 try {
-await m.react('💯')
+await m.react('✅')
 let q = '128kbps'
 let v = yt_play[0].url
 const yt = await youtubedl(v).catch(async _ => await youtubedlv2(v))
@@ -76,7 +75,7 @@ renderLargerThumbnail: true
 } catch {
 }}}}}
 }  
-if (command == 'play8') {
+if (command == 'play2') {
 try {
 await m.react('✅')
 let qu = '480'
@@ -103,7 +102,7 @@ await conn.sendMessage(m.chat, { video: { url: n2 }, fileName: `${n}.mp4`, mimet
 } catch {
 }}}}} catch {
 }}
-handler.command = ['spotify', 'play8']
+handler.command = ['play', 'play2']
 handler.exp = 0
 export default handler
 
