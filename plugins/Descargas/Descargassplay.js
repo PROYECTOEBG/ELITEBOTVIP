@@ -18,7 +18,7 @@ additionalText = ''
 } else if (command === 'play2') {
 additionalText = 'video 🎥'}
 await conn.sendMessage(m.chat, {
-text: `01:27 ━━━━━⬤──── ${vid.timestamp || 'Desconocido'}
+text: `01:27 ━━━━━⬤──── ${secondString(yt_play[0].duration.seconds)}
 *⇄ㅤ   ◁   ㅤ  ❚❚ㅤ     ▷ㅤ   ↻*
 𝙀𝙡𝙞𝙩𝙚 𝘽𝙤𝙩 𝙂𝙡𝙤𝙗𝙖𝙡`, 
 contextInfo: {
