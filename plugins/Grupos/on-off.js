@@ -347,7 +347,16 @@ global.dfail('admin', m, conn)
 throw false
 }}
 chat.modoadmin = isEnable          
-break    
+break 
+		
+case 'autorespond': case 'autoresponder':
+if (m.isGroup) {
+if (!(isAdmin || isOwner)) {
+global.dfail('admin', m, conn)
+throw false
+}}
+chat.autorespond = isEnable 
+break
    
 case 'pconly': case 'privateonly': case 'soloprivados':
 isAll = true
