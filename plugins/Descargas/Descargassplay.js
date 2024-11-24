@@ -30,7 +30,7 @@ mediaType: 1,
 showAdAttribution: true,
 renderLargerThumbnail: true
 }}} , { quoted: m })
-if (command == 'spotify') {	
+if (command == 'play') {	
 try {
 await m.react('✅')
 let q = '128kbps'
