@@ -1,63 +1,81 @@
+import Scraper from '@SumiFX/Scraper'
 import axios from 'axios'
-const {proto, generateWAMessageFromContent, prepareWAMessageMedia, generateWAMessageContent, getDevice} = (await import("@whiskeysockets/baileys")).default
+import fetch from 'node-fetch'
 
-let handler = async (message, { conn, text, usedPrefix, command }) => {
-if (!text) return conn.reply(message.chat, '🍭 Ingrese su petición de tiktok.', message)
-async function createVideoMessage(url) {
-const { videoMessage } = await generateWAMessageContent({ video: { url } }, { upload: conn.waUploadToServer })
-return videoMessage
-}
-async function shuffleArray(array) {
-for (let i = array.length - 1; i > 0; i--) {
-const j = Math.floor(Math.random() * (i + 1));
-[array[i], array[j]] = [array[j], array[i]]
-}
-}
-try {
-/*await message.react(rwait)
-conn.reply(message.chat, '🚩 *Descargando Su Video...*', message, {
-contextInfo: { externalAdReply :{ mediaUrl: null, mediaType: 1, showAdAttribution: true,
-title: packname,
-body: dev,
-previewType: 0, thumbnail: icons,
-sourceUrl: channel }}})*/
-let results = []
-let { data: response } = await axios.get('https://apis-starlights-team.koyeb.app/starlight/tiktoksearch?text=' + text)
-let searchResults = response.data
-shuffleArray(searchResults)
-let selectedResults = searchResults.splice(0, 7)
-for (let result of selectedResults) {
-results.push({
-body: proto.Message.InteractiveMessage.Body.fromObject({ text: null }),
-footer: proto.Message.InteractiveMessage.Footer.fromObject({ text: dev }),
-header: proto.Message.InteractiveMessage.Header.fromObject({
-title: '' + result.title,
-hasMediaAttachment: true,
-videoMessage: await createVideoMessage(result.nowm)
-}),
-nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({ buttons: [] })})}
-const responseMessage = generateWAMessageFromContent(message.chat, {
-viewOnceMessage: {
-message: {
-messageContextInfo: {
-deviceListMetadata: {},
-deviceListMetadataVersion: 2
-},
-interactiveMessage: proto.Message.InteractiveMessage.fromObject({
-body: proto.Message.InteractiveMessage.Body.create({ text: '🍭 Resultado de: ' + text }),
-footer: proto.Message.InteractiveMessage.Footer.create({ text: '🍿 Tiktok - Serachs' }),
-header: proto.Message.InteractiveMessage.Header.create({ hasMediaAttachment: false }),
-carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({ cards: [...results] })})}}
-}, { quoted: message })
-await message.react(done)
-await conn.relayMessage(message.chat, responseMessage.message, { messageId: responseMessage.key.id })
-} catch (error) {
-await conn.reply(message.chat, error.toString(), message)
-}}
+let handler = async (m, { conn, args, usedPrefix, command }) => {
+    if (!args[0])  m.reply(`🍭 Ingresa un enlace del vídeo de TikTok junto al comando.\n\nEjemplo:\n${usedPrefix + command} https://vm.tiktok.com/ZMMCYHnxf/`)
 
-handler.help = ['tiktoksearch <txt>']
-handler.cookies = 1
+    try {
+        let { title, published, quality, likes, commentCount, shareCount, views, dl_url } = await Scraper.tiktokdl(args[0])
+            let txt = `╭─⬣「 *TikTok Download* 」⬣\n`
+                txt += `│  ≡◦ *🍭 Título* : ${title}\n`
+                txt += `│  ≡◦ *📅 Publicado* : ${published}\n`
+                txt += `│  ≡◦ *🪴 Calidad* : ${quality}\n`
+                txt += `│  ≡◦ *👍 Likes* : ${likes}\n`
+                txt += `│  ≡◦ *🗣 Comentarios* : ${commentCount}\n`
+                txt += `│  ≡◦ *💫 Share* : ${shareCount}\n`
+                txt += `│  ≡◦ *📹 Visitas* : ${views}\n`
+                txt += `╰─⬣`
+
+        await conn.sendMessage(m.chat, { video: { url: dl_url }, caption: txt }, { quoted: m })
+    } catch {
+    try {
+        const api = await fetch(`https://api-starlights-team.koyeb.app/api/tiktok?url=${args[0]}`)
+        const data = await api.json()
+
+        if (data.status) {
+            const { author, view, comment, play, share, download, duration, title, video } = data.data;
+            let txt = `╭─⬣「 *TikTok Download* 」⬣\n`
+                txt += `│  ≡◦ *🍭 Título* : ${title}\n`
+                txt += `│  ≡◦ *📚 Autor* : ${author.nickname}\n`
+                txt += `│  ≡◦ *🕜 Duración* : ${duration} Segundos\n`
+                txt += `│  ≡◦ *🌵 Descargas* : ${download}\n`
+                txt += `│  ≡◦ *🗣 Comentarios* : ${comment}\n`
+                txt += `│  ≡◦ *💫 Share* : ${share}\n`
+                txt += `│  ≡◦ *🐢 Visitas* : ${play}\n`
+                txt += `╰─⬣`
+
+            await conn.sendMessage(m.chat, { video: { url: video }, caption: txt }, { quoted: m })
+        }
+    } catch {
+    try {
+        const api1 = await fetch(`https://delirius-api-oficial.vercel.app/api/tiktok?url=${args[0]}`)
+        const data1 = await api1.json()
+
+        if (data1.status) {
+            const { author, repro, like, share, comment, download, duration, title, meta, published } = data1.data
+            const publishedDate = formatDate(published)
+            const fileSize = convertBytesToMB(meta.media[0].size_org)
+
+            let txt = `╭─⬣「 *TikTok Download* 」⬣\n`
+                txt += `│  ≡◦ *🍭 Título* : ${title}\n`
+                txt += `│  ≡◦ *🐢 Autor* : ${author.nickname}\n`
+                txt += `│  ≡◦ *🕜 Duración* : ${duration} Segundos\n`
+                txt += `│  ≡◦ *📹 Reproducciones* : ${repro}\n`
+                txt += `│  ≡◦ *👍 Likes* : ${like}\n`;
+                txt += `│  ≡◦ *🗣 Comentarios* : ${comment}\n`
+                txt += `│  ≡◦ *📦 Descargas* : ${download}\n`
+                txt += `│  ≡◦ *💫 Share* : ${share}\n`
+                txt += `│  ≡◦ *📅 Publicado* : ${publishedDate}\n`
+                txt += `│  ≡◦ *🌵 Tamaño* : ${fileSize}\n`
+                txt += `╰─⬣`
+
+            await conn.sendMessage(m.chat, { video: { url: meta.media[0].org }, caption: txt }, { quoted: m })
+        }
+    } catch {
+}}}}
+handler.help = ['tiktok <url tt>']
+handler.tags = ['downloader']
+handler.command = ['tiktook', 'ttdl', 'tiktokdl', 'tiktoknowm']
 handler.register = true
-handler.tags = ['buscador']
-handler.command = ['tiktoksearch', 'tiktoks']
+
 export default handler
+
+function convertBytesToMB(bytes) {
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB'
+}
+
+function formatDate(unixTimestamp) {
+    const date = new Date(unixTimestamp * 1000)
+    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+}
