@@ -5,7 +5,7 @@ import {tiktok} from '@xct007/frieren-scraper';
 import {generateWAMessageFromContent} from '@whiskeysockets/baileys';
 import {tiktokdl} from '@bochilteam/scraper';
 const handler = async (m, {conn, text, args, usedPrefix, command}) => {
-  if (!text) return conn.reply(m.chat, `🚩 Te faltó el link del video de tiktok.`, m, rcanal);
+  if (!text) return conn.reply(m.chat, `🚩 Te faltó el link del video de tiktok.`, m);
   if (!/(?:https:?\/{2})?(?:w{3}|vm|vt|t)?\.?tiktok.com\/([^\s&]+)/gi.test(text)) return conn.reply(m.chat, `🚩 Enlace no válido.`, m, fake);
   const texto = `_💌 @${m.sender.split`@`[0]}  ᩭ✎Enviando Video, espere un momento...._`;
   try {
@@ -38,7 +38,7 @@ const handler = async (m, {conn, text, args, usedPrefix, command}) => {
           const cap = `_💌  ᩭ✎Tiktok sin marca de agua descargado con éxito_`;
           await conn.sendMessage(m.chat, {video: {url: url}, caption: cap}, {quoted: fkontak});
         } catch {
-        return conn.reply(m.chat, `🚩 Ocurrió un error.`, m, rcanal);
+        return conn.reply(m.chat, `🚩 Ocurrió un error.`, m);
           }
         }
       }
