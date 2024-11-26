@@ -1,81 +1,83 @@
-import Scraper from '@SumiFX/Scraper'
-import axios from 'axios'
 import fetch from 'node-fetch'
-
-let handler = async (m, { conn, args, usedPrefix, command }) => {
-    if (!args[0])  m.reply(`🍭 Ingresa un enlace del vídeo de TikTok junto al comando.\n\nEjemplo:\n${usedPrefix + command} https://vm.tiktok.com/ZMMCYHnxf/`)
-
-    try {
-        let { title, published, quality, likes, commentCount, shareCount, views, dl_url } = await Scraper.tiktokdl(args[0])
-            let txt = `╭─⬣「 *TikTok Download* 」⬣\n`
-                txt += `│  ≡◦ *🍭 Título* : ${title}\n`
-                txt += `│  ≡◦ *📅 Publicado* : ${published}\n`
-                txt += `│  ≡◦ *🪴 Calidad* : ${quality}\n`
-                txt += `│  ≡◦ *👍 Likes* : ${likes}\n`
-                txt += `│  ≡◦ *🗣 Comentarios* : ${commentCount}\n`
-                txt += `│  ≡◦ *💫 Share* : ${shareCount}\n`
-                txt += `│  ≡◦ *📹 Visitas* : ${views}\n`
-                txt += `╰─⬣`
-
-        await conn.sendMessage(m.chat, { video: { url: dl_url }, caption: txt }, { quoted: m })
-    } catch {
-    try {
-        const api = await fetch(`https://api-starlights-team.koyeb.app/api/tiktok?url=${args[0]}`)
-        const data = await api.json()
-
-        if (data.status) {
-            const { author, view, comment, play, share, download, duration, title, video } = data.data;
-            let txt = `╭─⬣「 *TikTok Download* 」⬣\n`
-                txt += `│  ≡◦ *🍭 Título* : ${title}\n`
-                txt += `│  ≡◦ *📚 Autor* : ${author.nickname}\n`
-                txt += `│  ≡◦ *🕜 Duración* : ${duration} Segundos\n`
-                txt += `│  ≡◦ *🌵 Descargas* : ${download}\n`
-                txt += `│  ≡◦ *🗣 Comentarios* : ${comment}\n`
-                txt += `│  ≡◦ *💫 Share* : ${share}\n`
-                txt += `│  ≡◦ *🐢 Visitas* : ${play}\n`
-                txt += `╰─⬣`
-
-            await conn.sendMessage(m.chat, { video: { url: video }, caption: txt }, { quoted: m })
+import { generateWAMessageFromContent } from '@whiskeysockets/baileys'
+import { tiktokdl } from '@bochilteam/scraper'
+let handler = async (m, { conn, text, usedPrefix, command, args }) => {
+if (!text) {
+    let resp =  `*[❗INFO❗] ENLACE DE TIKTOK FALTANTE, POR FAVOR INGRESE EN ENLACE/LINK DE ALGUN VIDEO DE TIKTOK*\n\n*—◉ EJEMPLO:*\n*${usedPrefix + command} https://vm.tiktok.com/ZML42vSnn/*`
+    let txt = '';
+    let count = 0;
+    for (const c of resp) {
+        await new Promise(resolve => setTimeout(resolve, 5));
+        txt += c;
+        count++;
+        if (count % 10 === 0) {
+          
+await conn.sendPresenceUpdate('composing' , m.chat);
         }
-    } catch {
-    try {
-        const api1 = await fetch(`https://delirius-api-oficial.vercel.app/api/tiktok?url=${args[0]}`)
-        const data1 = await api1.json()
-
-        if (data1.status) {
-            const { author, repro, like, share, comment, download, duration, title, meta, published } = data1.data
-            const publishedDate = formatDate(published)
-            const fileSize = convertBytesToMB(meta.media[0].size_org)
-
-            let txt = `╭─⬣「 *TikTok Download* 」⬣\n`
-                txt += `│  ≡◦ *🍭 Título* : ${title}\n`
-                txt += `│  ≡◦ *🐢 Autor* : ${author.nickname}\n`
-                txt += `│  ≡◦ *🕜 Duración* : ${duration} Segundos\n`
-                txt += `│  ≡◦ *📹 Reproducciones* : ${repro}\n`
-                txt += `│  ≡◦ *👍 Likes* : ${like}\n`;
-                txt += `│  ≡◦ *🗣 Comentarios* : ${comment}\n`
-                txt += `│  ≡◦ *📦 Descargas* : ${download}\n`
-                txt += `│  ≡◦ *💫 Share* : ${share}\n`
-                txt += `│  ≡◦ *📅 Publicado* : ${publishedDate}\n`
-                txt += `│  ≡◦ *🌵 Tamaño* : ${fileSize}\n`
-                txt += `╰─⬣`
-
-            await conn.sendMessage(m.chat, { video: { url: meta.media[0].org }, caption: txt }, { quoted: m })
+    }
+         return await conn.sendMessage(m.chat, { text: txt.trim(), mentions: conn.parseMention(txt) }, {quoted: m, ephemeralExpiration: 24*60*100, disappearingMessagesInChat: 24*60*100} );
+    }
+if (!/(?:https:?\/{2})?(?:w{3}|vm|vt|t)?\.?tiktok.com\/([^\s&]+)/gi.test(text)) {
+    let resp = `*[❗INFO❗] ENLACE DE TIKTOK INCORRECTO, POR FAVOR INGRESE UN ENLACE/LINK DE ALGÚN VÍDEO DE TIKTOK*\n\n*—◉ EJEMPLO:*\n*${usedPrefix + command} https://vm.tiktok.com/ZML42vSnn/*`
+    let txt = '';
+    let count = 0;
+    for (const c of resp) {
+        await new Promise(resolve => setTimeout(resolve, 50));
+        txt += c;
+        count++;
+        if (count % 10 === 0) {
+          
+await conn.sendPresenceUpdate('composing' , m.chat);
         }
-    } catch {
-}}}}
-handler.help = ['tiktok <url tt>']
+    }
+        return await conn.sendMessage(m.chat, { text: txt.trim(), mentions: conn.parseMention(txt) }, {quoted: m, ephemeralExpiration: 24*60*100, disappearingMessagesInChat: 24*60*100} );
+    }
+let texto = `*[❗] @${m.sender.split`@`[0]} AGUARDE UN MOMENTO EN LO QUE ENVIO SU VIDEO DE TIKTOK*`
+try {
+let prep = generateWAMessageFromContent(m.chat, { extendedTextMessage: { text: texto, contextInfo: { externalAdReply: { title: `${wm}`, body: null, thumbnail: imagen1, sourceUrl: `${animxscansmd}` }, mentionedJid: [m.sender]}}}, { quoted: m, userJid: conn.user.jid })
+const { author: { nickname }, video, description } = await tiktokdl(args[0])//.catch(async _ => await tiktokdlv2(args[0]))
+const url = video.no_watermark_raw || video.no_watermark || video.no_watermark_hd || video.with_watermark
+await conn.relayMessage(m.chat, prep.message, { messageId: prep.key.id, mentions: [m.sender] })
+//let buttons = [{ buttonText: { displayText: 'AUDIO' }, buttonId: `${usedPrefix}tomp3` }]
+let resp = `_${igfg}_\n\nPara convertirlo en audio conteste este mensaje usando:\n*${usedPrefix}tomp3*`
+let txt = '';
+let count = 0;
+for (const c of resp) {
+    await new Promise(resolve => setTimeout(resolve, 15));
+    txt += c;
+    count++;
+    if (count % 10 === 0) {
+      
+await conn.sendPresenceUpdate('composing' , m.chat);
+    }
+}
+return conn.sendMessage(m.chat, { video: { url: url}, caption: txt.trim(), footer: await shortUrl(url)}, { quoted: m, ephemeralExpiration: 2*60*1000 })
+} catch {
+let resp = '*[❗INFO❗] LO LAMENTO, OCURRIÓ UN ERROR AL DESCARGAR SU VIDEO, POR FAVOR VUELVA A INTENTARLO*'
+let txt = '';
+let count = 0;
+for (const c of resp) {
+    await new Promise(resolve => setTimeout(resolve, 50));
+    txt += c;
+    count++;
+    if (count % 10 === 0) {
+      
+await conn.sendPresenceUpdate('composing' , m.chat);
+    }
+}
+    await conn.sendMessage(m.chat, { text: txt.trim(), mentions: conn.parseMention(txt) }, {quoted: m, ephemeralExpiration: 24*60*100, disappearingMessagesInChat: 24*60*100} );
+  
+}
+}
+handler.help = ['tiktok']
 handler.tags = ['downloader']
-handler.command = ['tiktok', 'tttdl', 'tiktokdl', 'tiktoknowm']
-
-
+handler.alias = ['tiktook', 'tikdl', 'tiktokdl', 'tiktoknowm']
+handler.command = /^(tt|tiktok)(dl|nowm)?$/i
 export default handler
 
-function convertBytesToMB(bytes) {
-    return (bytes / (1024 * 1024)).toFixed(2) + ' MB'
-}
-
-function formatDate(unixTimestamp) {
-    const date = new Date(unixTimestamp * 1000)
-    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
-}
+async function getInfo(url) {
+let id = url.split('?')[0].split('/')
+let res = await (await fetch(`https://www.tiktok.com/node/share/video/${id[3]}/${id[5]}/`)).json()
+return res?.seoProps?.metaParams}
+async function shortUrl(url) {
+return await (await fetch(`https://tinyurl.com/api-create.php?url=${url}`)).text()}
