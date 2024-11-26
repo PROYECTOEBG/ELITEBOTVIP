@@ -72,7 +72,7 @@ await conn.sendPresenceUpdate('composing' , m.chat);
 handler.help = ['tiktok']
 handler.tags = ['downloader']
 handler.alias = ['tiktook', 'tikdl', 'tiktokdl', 'tiktoknowm']
-handler.command = /^(tt|tiktok)(dl|nowm)?$/i
+handler.command = /^(ttt|tiktok)(dl|nowm)?$/i
 export default handler
 
 async function getInfo(url) {
