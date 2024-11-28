@@ -75,7 +75,7 @@ renderLargerThumbnail: true
 } catch {
 }}}}}
 }  
-if (command == 'play2') {
+if (command == 'play8') {
 try {
 await m.react('✅')
 let qu = '480'
@@ -102,7 +102,7 @@ await conn.sendMessage(m.chat, { video: { url: n2 }, fileName: `${n}.mp4`, mimet
 } catch {
 }}}}} catch {
 }}
-handler.command = ['play', 'play2']
+handler.command = ['play', 'play8']
 handler.exp = 0
 export default handler
 
