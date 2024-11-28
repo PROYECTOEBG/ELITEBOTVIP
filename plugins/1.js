@@ -1,21 +1,20 @@
-let handler = async (m, { conn, text, usedPrefix, command, isOwner, isAdmin, isROwner }) => {
-if (!(isOwner || isAdmin || isROwner)) {
-conn.reply(m.chat, "❌ *No tienes permitido personalizar la autorespuesta del bot en este chat.*\n\n💡 *Pídele a un administrador en caso que este chat sea un grupo o al creador del bot que lo haga por ti en este chat.*", m)
+import { sticker } from '../lib/sticker.js'
+let handler = async(m, { conn }) => {
+//if (!db.data.chats[m.chat].stickers && m.isGroup) throw `${ag}𝙇𝙊𝙎 𝘾𝙊𝙈𝘼𝙉𝘿𝙊𝙎 𝘿𝙀 𝙎𝙏𝙄𝘾𝙆𝙀𝙍𝙎 𝙀𝙎𝙏𝘼𝙉 𝘿𝙀𝙎𝘼𝘾𝙏𝙄𝙑𝘼𝘿𝙊𝙎 𝙐𝙎𝙀 *#on stickers* 𝙋𝘼𝙍𝘼 𝘼𝘾𝙏𝙄𝙑𝘼𝙍\n\n𝙏𝙃𝙀 𝙎𝙏𝙄𝘾𝙆𝙀𝙍𝙎 𝘾𝙊𝙈𝙈𝘼𝙉𝘿𝙎 𝘼𝙍𝙀 𝘿𝙄𝙎𝘼𝘽𝙇𝙀𝘿 𝙐𝙎𝙀 *#on stickers* 𝙏𝙊 𝙀𝙉𝘼𝘽𝙇𝙀`
+if (!db.data.chats[m.chat].stickers && m.isGroup) throw 0
+ 
+let nombre = 'Adios Basura'
+let nombre2 = '• By: ELiteBot'
+ 
+const s = [
+'https://file.io/HMiXuNRipiC2'
+];  
+ 
+let stiker = await sticker(null, s[Math.floor(Math.random() * s.length)], nombre, nombre2)
+await delay(5 * 5000)
+if (stiker) conn.sendFile(m.chat, stiker, 'sticker.webp', '',m, true, { contextInfo: { 'forwardingScore': 200, 'isForwarded': false, externalAdReply:{ showAdAttribution: false, title: wm, body: `h`, mediaType: 2, sourceUrl: nn, thumbnail: imagen1}}}, { quoted: m })
 }
-const chatData = global.db.data.chats[m.chat]
-if (text) {
-if (chatData.sAutorespond) return conn.reply(m.chat, `⚠️ *Actualmente hay el siguiente prompt en uso:*\n\n${chatData.sAutorespond}\n\n💡 *Si quieres cambiarlo, usa el comando sin texto para borrar el prompt actual y luego establece el nuevo prompt.*`, m)
-
-chatData.sAutorespond = text
-conn.reply(m.chat, `✅ *Configuración exitosa.*\n\n*Has establecido un nuevo prompt para este chat.*\n💬 A partir de ahora, activa usando *${usedPrefix}on autoresponder*, el bot usará las indicaciones que hayas establecido.\n\n> *Recuerda etiquetar o responder a un mensaje del bot para que te responda.*`, m)
-} else {
-if (chatData.sAutorespond) {
-chatData.sAutorespond = ''
-conn.reply(m.chat, "🗑️ *Prompt borrado con éxito.*", m)
-} else {
-conn.reply(m.chat, `⚠️ *No hay ningún prompt establecido para este chat.*\n\n💡 *Para establecer un nuevo prompt, utiliza el comando seguido del texto que describa las instrucciones para el bot.*\n\n*Por ejemplo:*\n*${usedPrefix + command}* Actúa como un psicólogo y brinda apoyo emocional a los usuarios.`, m)
-}}
-}
-
-handler.command = /^(autorespond|autoresponder)$/i
+handler.customPrefix = /𝑰𝑵𝑺𝑬𝑹𝑽𝑰𝑩𝑳𝑬|🤡/i 
+handler.command = new RegExp
 export default handler
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
