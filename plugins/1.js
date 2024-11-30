@@ -1,715 +1,379 @@
-import axios from "axios";
-import cheerio from "cheerio";
-import FormData from "form-data";
-const split = '|';
-const handler = async (m, {conn, args: [effect], text: txt, usedPrefix, command, name}) => {
-if (!effect) throw '*⚠️ ¿𝐂𝐨𝐦𝐨 𝐮𝐬𝐚𝐫 𝐞𝐬𝐭𝐞 𝐜𝐨𝐦𝐚𝐧𝐝𝐨?*\n• _#logo (efecto) (texto)_\n*𝐄𝐣𝐞𝐦𝐩𝐥𝐨:*\n• _#logo 3d-deep-sea-metal Mystic_\n\n*⚠️ 𝐂𝐮𝐚𝐧𝐝𝐨 𝐥𝐞𝐬 𝐝𝐢𝐠𝐚 𝐪𝐮𝐞 𝐡𝐚𝐜𝐞 𝐟𝐚𝐥𝐭𝐚 𝐮𝐧 𝐭𝐞𝐱𝐭𝐨 𝐞𝐥 𝐮𝐬𝐨 𝐬𝐞𝐫𝐢𝐚:*\n• _#logo (efecto) (texto1|texto2)_\n*𝐄𝐣𝐞𝐦𝐩𝐥𝐨:*\n• _#logo Wolf-Logo-Galaxy Loli|Bot_\n\n*<𝑳𝑰𝑺𝑻𝑨 𝑫𝑬 𝑬𝑭𝑬𝑪𝑻𝑶𝑺/>*\n\n° ඬ⃟📝 #logo ' + effects.map((v) => v.title).join('\n° ඬ⃟📝 #logo ');
-if (!effects.find((v) => (new RegExp(v.title, 'gi')).test(effect))) throw `*⚠️ 𝐄𝐥 𝐞𝐟𝐞𝐜𝐭𝐨 ${effect} 𝐧𝐨 𝐞𝐬𝐭𝐚 𝐞𝐧 𝐥𝐚 𝐥𝐢𝐬𝐭𝐚 𝐝𝐞 𝐞𝐟𝐞𝐜𝐭𝐨𝐬*`;  
-let text = txt.replace(new RegExp(effect, 'gi'), '').trimStart();
-if (text.includes(split)) {
-text = text.split(split).map((t) => t.trim());
+import { youtubedl, youtubedlv2 } from '@bochilteam/scraper'
+import fetch from 'node-fetch'
+import yts from 'yt-search'
+import ytdl from 'ytdl-core'
+import axios from 'axios'
+const LimitAud = 725 * 1024 * 1024; //700MB
+const LimitVid = 425 * 1024 * 1024; //425MB
+const handler = async (m, {conn, command, args, text, usedPrefix}) => {
+
+if (command == 'play3' || command == 'musica') {
+if (!text) throw `Que Busca\n*${usedPrefix + command} Billie Eilish - Bellyache*`
+const yt_play = await search(args.join(' '));
+const ytplay2 = await yts(text);
+const texto1 = `Play-
+
+ও Titulo
+» ${yt_play[0].title}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Fecha
+» ${yt_play[0].ago}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Duración 
+» ${secondString(yt_play[0].duration.seconds)}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও  Vista
+» ${MilesNumber(yt_play[0].views)}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও  Autor
+» ${yt_play[0].author.name}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Link
+» ${yt_play[0].url}
+
+
+> _*Descargado su audio. Aguarde un momento, por favor*_`.trim();
+
+await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null, rcanal);
+try {
+const apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${encodeURIComponent(yt_play[0].url)}`;
+const apiResponse = await fetch(apiUrl);
+const delius = await apiResponse.json();
+if (!delius.status) {
+return m.react("❌")}
+const downloadUrl = delius.data.download.url;
+await conn.sendMessage(m.chat, { audio: { url: downloadUrl }, mimetype: 'audio/mpeg' }, { quoted: m });
+} catch (e1) {
+try {    
+let q = '128kbps'
+const yt = await youtubedl(yt_play[0].url).catch(async _ => await youtubedlv2(yt_play[0].url))
+const dl_url = await yt.audio[q].download()
+const ttl = await yt.title
+const size = await yt.audio[q].fileSizeH
+await conn.sendFile(m.chat, dl_url, ttl + '.mp3', null, m, false, { mimetype: 'audio/mp4' })
+} catch (e2) {
+try {   
+const downloadUrl = await fetch9Convert(yt_play[0].url); 
+await conn.sendFile(m.chat, downloadUrl, 'audio.mp3', null, m, false, { mimetype: 'audio/mp4' })
+} catch (e3) {
+try {
+const downloadUrl = await fetchY2mate(yt_play[0].url);
+await conn.sendFile(m.chat, downloadUrl, 'audio.mp3', null, m, false, { mimetype: 'audio/mp4' })
+} catch (e4) {
+try {
+const res = await fetch(`https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${yt_play[0].url}`)
+const audioData = await res.json()
+if (audioData.status && audioData.result?.downloadUrl) {
+await conn.sendMessage(m.chat, { audio: { url: audioData.result.downloadUrl }, mimetype: 'audio/mpeg' }, { quoted: m });
+}} catch (e5) {
+try {
+let d2 = await fetch(`https://exonity.tech/api/ytdlp2-faster?apikey=adminsepuh&url=${yt_play[0].url}`);
+let dp = await d2.json();
+const audiop = await getBuffer(dp.result.media.mp3);
+const fileSize = await getFileSize(dp.result.media.mp3);
+await conn.sendMessage(m.chat, { audio: { url: audiop }, mimetype: 'audio/mpeg' }, { quoted: m });
+if (fileSize > LimitAud) return await conn.sendMessage(m.chat, { document: { url: audiop }, mimetype: 'audio.mp3', fileName: `${yt_play[0].title}.mp3` }, { quoted: m });
+} catch (e) {    
+await m.react('❌');
+console.log(e);
+}}}}}}}
+
+if (command == 'play4' || command == 'video') {
+if (!text) throw `Que Busca\n*${usedPrefix + command} Billie Eilish - Bellyache*`
+const yt_play = await search(args.join(' '));
+const ytplay2 = await yts(text);
+const texto1 = `Play-
+
+ও Titulo
+» ${yt_play[0].title}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Fecha
+» ${yt_play[0].ago}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Duración 
+» ${secondString(yt_play[0].duration.seconds)}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও  Vista
+» ${MilesNumber(yt_play[0].views)}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও  Autor
+» ${yt_play[0].author.name}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Link
+» ${yt_play[0].url}
+
+
+
+> _*Descargado su video. Aguarde un momento, por favor*_`.trim();
+
+await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null, rcanal);
+try {
+const apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${encodeURIComponent(yt_play[0].url)}`;
+const apiResponse = await fetch(apiUrl);
+const delius = await apiResponse.json();
+if (!delius.status) return m.react("❌");
+const downloadUrl = delius.data.download.url;
+const fileSize = await getFileSize(downloadUrl);
+if (fileSize > LimitVid) {
+await conn.sendMessage(m.chat, { document: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣` }, { quoted: m });
 } else {
-text = [text.trim()];
+await conn.sendMessage(m.chat, { video: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
+}} catch (e1) {
+try {    
+let qu = args[1] || '360'
+let q = qu + 'p'
+const yt = await youtubedl(yt_play[0].url).catch(async _ => await youtubedlv2(yt_play[0].url))
+const dl_url = await yt.video[q].download()
+const ttl = await yt.title
+const size = await yt.video[q].fileSizeH
+await await conn.sendMessage(m.chat, { video: { url: dl_url }, fileName: `${ttl}.mp4`, mimetype: 'video/mp4', caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: await fetch(yt.thumbnail) }, { quoted: m })
+} catch (e2) {
+try {    
+const downloadUrl = await fetch9Convert(yt_play[0].url); 
+await conn.sendMessage(m.chat, { video: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
+} catch (e3) {
+try {
+const downloadUrl = await fetchY2mate(yt_play[0].url);
+await conn.sendMessage(m.chat, { video: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
+} catch (e4) {
+try {
+const videoInfo = await fetchInvidious(yt_play[0].url)
+const downloadUrl = videoInfo.videoFormats.find(format => format.mimeType === "audio/mp4").url;
+await conn.sendMessage(m.chat, { video: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
+} catch (e5) {
+try {
+let searchh = await yts(yt_play[0].url)
+let __res = searchh.all.map(v => v).filter(v => v.type == "video")
+let infoo = await ytdl.getInfo('https://youtu.be/' + __res[0].videoId)
+let ress = await ytdl.chooseFormat(infoo.formats, { filter: 'audioonly' })
+conn.sendMessage(m.chat, { video: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
+} catch (e6) {
+try {
+let d2 = await fetch(`https://exonity.tech/api/ytdlp2-faster?apikey=adminsepuh&url=${yt_play[0].url}`);
+let dp = await d2.json();
+const audiop = await getBuffer(dp.result.media.mp4);
+const fileSize = await getFileSize(dp.result.media.mp4);
+if (fileSize > LimitVid) {
+await conn.sendMessage(m.chat, { document: { url: audiop }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣` }, { quoted: m });
+} else {
+await conn.sendMessage(m.chat, { video: { url: audiop }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión ❱━⬣\n┃ 💜 Yotsuba\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
+}} catch (e) {    
+await m.react('❌');
+console.log(e);
+}}}}}}}}
+
+if (command == 'play5' || command == 'playdoc') {
+if (!text) throw `Que Busca\n*${usedPrefix + command} Billie Eilish - Bellyache*`
+const yt_play = await search(args.join(' '));
+const ytplay2 = await yts(text);
+const texto1 = `Play-
+
+ও Titulo
+» ${yt_play[0].title}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Fecha
+» ${yt_play[0].ago}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Duración 
+» ${secondString(yt_play[0].duration.seconds)}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও  Vista
+» ${MilesNumber(yt_play[0].views)}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও  Autor
+» ${yt_play[0].author.name}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Link
+» ${yt_play[0].url}
+
+
+> > _*Descargado su audio en documento. Aguarde un momento, por favor*_`.trim();
+
+await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null, rcanal);
+try {
+const apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${encodeURIComponent(yt_play[0].url)}`;
+const apiResponse = await fetch(apiUrl);
+const delius = await apiResponse.json();
+if (!delius.status) {
+return m.react("❌")}
+const downloadUrl = delius.data.download.url;
+await conn.sendMessage(m.chat, { document: { url: downloadUrl }, mimetype: 'audio/mpeg', fileName: `${yt_play[0].title}.mp3` }, { quoted: m });
+} catch (e1) {
+try {    
+let q = '128kbps'
+const yt = await youtubedl(yt_play[0].url).catch(async _ => await youtubedlv2(yt_play[0].url))
+const dl_url = await yt.audio[q].download()
+const ttl = await yt.title
+const size = await yt.audio[q].fileSizeH
+await conn.sendMessage(m.chat, { document: { url: dl_url }, mimetype: 'audio/mpeg', fileName: `${ttl}.mp3` }, { quoted: m });
+} catch (e2) {
+try {   
+const downloadUrl = await fetch9Convert(yt_play[0].url); 
+await conn.sendMessage(m.chat, { document: { url: downloadUrl }, mimetype: 'audio/mpeg', fileName: `${yt_play[0].title}.mp3` }, { quoted: m });
+} catch (e3) {
+try {
+const downloadUrl = await fetchY2mate(yt_play[0].url);
+await conn.sendMessage(m.chat, { document: { url: downloadUrl }, mimetype: 'audio/mpeg', fileName: `${yt_play[0].title}.mp3` }, { quoted: m });
+} catch (e4) {
+try {
+const res = await fetch(`https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${yt_play[0].url}`)
+const audioData = await res.json()
+if (audioData.status && audioData.result?.downloadUrl) {
+await conn.sendMessage(m.chat, { document: { url: audioData.result.downloadUrl }, mimetype: 'audio/mpeg', fileName: `${yt_play[0].title}.mp3` }, { quoted: m });
+}} catch (e5) {
+try {
+let d2 = await fetch(`https://exonity.tech/api/ytdlp2-faster?apikey=adminsepuh&url=${yt_play[0].url}`);
+let dp = await d2.json();
+const audiop = await getBuffer(dp.result.media.mp3);
+const fileSize = await getFileSize(dp.result.media.mp3);
+await conn.sendMessage(m.chat, { document: { url: audioData.result.downloadUrl }, mimetype: 'audio/mpeg', fileName: `${yt_play[0].title}.mp3` }, { quoted: m });
+} catch (e) {    
+await m.react('❌');
+console.log(e);
+}}}}}}}
+
+if (command == 'play6' || command == 'playdoc2') {
+if (!text) throw `Que Busca\n*${usedPrefix + command} Billie Eilish - Bellyache*`
+const yt_play = await search(args.join(' '));
+const ytplay2 = await yts(text);
+const texto1 = `Play-
+
+ও Titulo
+» ${yt_play[0].title}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Fecha
+» ${yt_play[0].ago}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Duración 
+» ${secondString(yt_play[0].duration.seconds)}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও  Vista
+» ${MilesNumber(yt_play[0].views)}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও  Autor
+» ${yt_play[0].author.name}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Link
+» ${yt_play[0].url}
+
+
+> > _*Descargado su video en documento. Aguarde un momento, por favor*_`.trim();
+
+await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null, rcanal);
+try {
+const apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${encodeURIComponent(yt_play[0].url)}`;
+const apiResponse = await fetch(apiUrl);
+const delius = await apiResponse.json();
+if (!delius.status) return m.react("❌");
+const downloadUrl = delius.data.download.url;
+//const fileSize = await getFileSize(downloadUrl);
+await conn.sendMessage(m.chat, { document: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰  Versión  ❱━⬣\n┃ 💜 Yotsubabot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m })     
+} catch (e1) {
+try {
+let d2 = await fetch(`https://exonity.tech/api/ytdlp2-faster?apikey=adminsepuh&url=${yt_play[0].url}`);
+let dp = await d2.json();
+const audiop = await getBuffer(dp.result.media.mp4);
+await conn.sendMessage(m.chat, { document: { url: audiop }, fileName: `${yt_play[0].title}.mp4`, caption: null, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m })     
+} catch (e2) {    
+await m.react('❌');
+console.log(e2);
+}}}
 }
-const effectoSelect = effects.find((effectz) => new RegExp(effectz?.title, 'i').test(effect));
-const res = await maker(effectoSelect?.url, [...text]).catch(_ => { throw '*⚠️ ғᴀʟᴛᴀ ᴇʟ ᴛᴇxᴛᴏ ᴀʟ ǫᴜᴇ sᴇ ʀᴇᴀʟɪᴢᴀʀᴀ ᴇʟ ʟᴏɢᴏ*' })
-if (typeof res == 'number') throw res == -1 ? `*⚠️ ᴇʟ ᴇғᴇᴄᴛᴏ ${effect} ɴᴏ ᴇsᴛᴀ ᴇɴ ʟᴀ ʟɪsᴛᴀ ᴅᴇ ᴇғᴇᴄᴛᴏs*` : `*⚠️ ᴇʟ ᴜsᴏ ᴄᴏʀʀᴇᴄᴛᴏ ᴅᴇʟ ᴄᴏᴍᴀɴᴅᴏ ᴇs ${usedPrefix + command} ${effect} ${new Array(res).fill('texto').map((v, i) => v + (i ? i + 1 : '')).join('|')}*`;
-await conn.sendMessage(m.chat, {image: {url: res.image}, caption: `*💫 𝐀𝐪𝐮𝐢 𝐭𝐢𝐞𝐧𝐞 𝐭𝐮 𝐢𝐦𝐚𝐠𝐞𝐧 𝐩𝐞𝐫𝐬𝐨𝐧𝐚𝐥𝐢𝐳𝐚𝐝𝐚!!*\n*• 𝐄𝐟𝐞𝐜𝐭𝐨𝐬: ${effect}*\n${wm}`}, {quoted: m});  
-};
-handler.help = ['logos'];
-handler.tags = ['logo'];
-handler.command = /^(logo|logos|logos3)$/i;
+handler.help = ['play', 'play2', 'play3', 'play4', 'playdoc'];
+handler.tags = ['downloader'];
+handler.command = ['play3', 'play4', 'play5', 'play6', 'audio', 'video', 'playdoc', 'playdoc2']
+//handler.limit = 3
 handler.register = true 
-handler.limit = 1
 export default handler;
 
-var effects = [
-  {
-    'title': '3d-deep-sea-metal',
-    'url': 'https://textpro.me/create-3d-deep-sea-metal-text-effect-online-1053.html',
-  },
-  {
-    'title': 'American-flag-3D',
-    'url': 'https://textpro.me/create-american-flag-3d-text-effect-online-1051.html',
-  },
-  {
-    'title': '3D-sci-fi',
-    'url': 'https://textpro.me/create-3d-sci-fi-text-effect-online-1050.html',
-  },
-  {
-    'title': '3D-rainbow-color-calligraphy',
-    'url': 'https://textpro.me/3d-rainbow-color-calligraphy-text-effect-1049.html',
-  },
-  {
-    'title': '3D-water-pipe',
-    'url': 'https://textpro.me/create-3d-water-pipe-text-effects-online-1048.html',
-  },
-  {
-    'title': 'Halloween-skeleton',
-    'url': 'https://textpro.me/create-halloween-skeleton-text-effect-online-1047.html',
-  },
-  {
-    'title': 'a-spooky-Halloween',
-    'url': 'https://textpro.me/create-a-spooky-halloween-text-effect-online-1046.html',
-  },
-  {
-    'title': 'a-cinematic-horror',
-    'url': 'https://textpro.me/create-a-cinematic-horror-text-effect-1045.html',
-  },
-  {
-    'title': 'a-sketch',
-    'url': 'https://textpro.me/create-a-sketch-text-effect-online-1044.html',
-  },
-  {
-    'title': 'blue-circuit-style',
-    'url': 'https://textpro.me/create-blue-circuit-style-text-effect-online-1043.html',
-  },
-  {
-    'title': 'space',
-    'url': 'https://textpro.me/create-space-text-effects-online-free-1042.html',
-  },
-  {
-    'title': 'a-metallic',
-    'url': 'https://textpro.me/create-a-metallic-text-effect-free-online-1041.html',
-  },
-  {
-    'title': 'Creat-glossy-metalic',
-    'url': 'https://textpro.me/creat-glossy-metalic-text-effect-free-online-1040.html',
-  },
-  {
-    'title': 'a-Captain-America',
-    'url': 'https://textpro.me/create-a-captain-america-text-effect-free-online-1039.html',
-  },
-  {
-    'title': 'science-fiction',
-    'url': 'https://textpro.me/create-science-fiction-text-effect-online-free-1038.html',
-  },
-  {
-    'title': 'Video-game-classic-8-bit',
-    'url': 'https://textpro.me/video-game-classic-8-bit-text-effect-1037.html',
-  },
-  {
-    'title': 'green-horror-style',
-    'url': 'https://textpro.me/create-green-horror-style-text-effect-online-1036.html',
-  },
-  {
-    'title': 'a-transformer',
-    'url': 'https://textpro.me/create-a-transformer-text-effect-online-1035.html',
-  },
-  {
-    'title': 'berry',
-    'url': 'https://textpro.me/create-berry-text-effect-online-free-1033.html',
-  },
-  {
-    'title': 'layered',
-    'url': 'https://textpro.me/create-layered-text-effects-online-free-1032.html',
-  },
-  {
-    'title': 'Online-thunder--generator',
-    'url': 'https://textpro.me/online-thunder-text-effect-generator-1031.html',
-  },
-  {
-    'title': 'a-magma-hot',
-    'url': 'https://textpro.me/create-a-magma-hot-text-effect-online-1030.html',
-  },
-  {
-    'title': '3D-stone-cracked-cool',
-    'url': 'https://textpro.me/3d-stone-cracked-cool-text-effect-1029.html',
-  },
-  {
-    'title': '3D-neon-light',
-    'url': 'https://textpro.me/create-3d-neon-light-text-effect-online-1028.html',
-  },
-  {
-    'title': 'impressive-glitch',
-    'url': 'https://textpro.me/create-impressive-glitch-text-effects-online-1027.html',
-  },
-  {
-    'title': 'a-glitch',
-    'url': 'https://textpro.me/create-a-glitch-text-effect-online-free-1026.html',
-  },
-  {
-    'title': 'embossed--on-cracked-surface',
-    'url': 'https://textpro.me/create-embossed-text-effect-on-cracked-surface-1024.html',
-  },
-  {
-    'title': 'Broken-glass',
-    'url': 'https://textpro.me/broken-glass-text-effect-free-online-1023.html',
-  },
-  {
-    'title': 'art-paper-cut',
-    'url': 'https://textpro.me/create-art-paper-cut-text-effect-online-1022.html',
-  },
-  {
-    'title': 'artistic-black-and-white-status-and-quote-with-your-photos',
-    'url': 'https://textpro.me/create-artistic-black-and-white-status-and-quote-with-your-photos-1021.html',
-  },
-  {
-    'title': 'Online-3D-gradient--generator',
-    'url': 'https://textpro.me/online-3d-gradient-text-effect-generator-1020.html',
-  },
-  {
-    'title': 'a-3D-glossy-metal',
-    'url': 'https://textpro.me/create-a-3d-glossy-metal-text-effect-1019.html',
-  },
-  {
-    'title': '3D-realistic--on-the-beach',
-    'url': 'https://textpro.me/create-3d-realistic-text-effect-on-the-beach-online-1018.html',
-  },
-  {
-    'title': 'a-watercolor',
-    'url': 'https://textpro.me/create-a-free-online-watercolor-text-effect-1017.html',
-  },
-  {
-    'title': 'Online-multicolor-3D-paper-cut',
-    'url': 'https://textpro.me/online-multicolor-3d-paper-cut-text-effect-1016.html',
-  },
-  {
-    'title': 'Write-text-on-foggy-window',
-    'url': 'https://textpro.me/write-text-on-foggy-window-online-free-1015.html',
-  },
-  {
-    'title': 'neon-devil-wings',
-    'url': 'https://textpro.me/create-neon-devil-wings-text-effect-online-free-1014.html',
-  },
-  {
-    'title': '3D-underwater--generator',
-    'url': 'https://textpro.me/3d-underwater-text-effect-generator-online-1013.html',
-  },
-  {
-    'title': 'Online-black-and-white-bear-mascot-logo-creation',
-    'url': 'https://textpro.me/online-black-and-white-bear-mascot-logo-creation-1012.html',
-  },
-  {
-    'title': 'wonderful-graffiti-art',
-    'url': 'https://textpro.me/create-wonderful-graffiti-art-text-effect-1011.html',
-  },
-  {
-    'title': 'a-cool-graffiti-text-on-the-wall',
-    'url': 'https://textpro.me/create-a-cool-graffiti-text-on-the-wall-1010.html',
-  },
-  {
-    'title': 'cool-wall-graffiti',
-    'url': 'https://textpro.me/create-cool-wall-graffiti-text-effect-online-1009.html',
-  },
-  {
-    'title': 'a-christmas-holiday-snow',
-    'url': 'https://textpro.me/create-a-christmas-holiday-snow-text-effect-1007.html',
-  },
-  {
-    'title': 'a-futuristic-technology-neon-light',
-    'url': 'https://textpro.me/create-a-futuristic-technology-neon-light-text-effect-1006.html',
-  },
-  {
-    'title': 'snow--for-winter-holidays',
-    'url': 'https://textpro.me/create-snow-text-effects-for-winter-holidays-1005.html',
-  },
-  {
-    'title': 'a-cloud--on-the-sky',
-    'url': 'https://textpro.me/create-a-cloud-text-effect-on-the-sky-online-1004.html',
-  },
-  {
-    'title': '3D-luxury-gold',
-    'url': 'https://textpro.me/3d-luxury-gold-text-effect-online-1003.html',
-  },
-  {
-    'title': '3D-gradient',
-    'url': 'https://textpro.me/3d-gradient-text-effect-online-free-1002.html',
-  },
-  {
-    'title': 'Blackpink-logo-style',
-    'url': 'https://textpro.me/create-blackpink-logo-style-online-1001.html',
-  },
-  {
-    'title': 'realistic-vintage-style-light-bulb',
-    'url': 'https://textpro.me/create-realistic-vintage-style-light-bulb-1000.html',
-  },
-  {
-    'title': 'realistic-cloud',
-    'url': 'https://textpro.me/create-realistic-cloud-text-effect-online-free-999.html',
-  },
-  {
-    'title': 'a-cloud--in-the-sky',
-    'url': 'https://textpro.me/create-a-cloud-text-effect-in-the-sky-online-997.html',
-  },
-  {
-    'title': 'Write-in-Sand-Summer-Beach',
-    'url': 'https://textpro.me/write-in-sand-summer-beach-free-online-991.html',
-  },
-  {
-    'title': 'Sand-Writing',
-    'url': 'https://textpro.me/sand-writing-text-effect-online-990.html',
-  },
-  {
-    'title': 'Sand-engraved-3d',
-    'url': 'https://textpro.me/sand-engraved-3d-text-effect-989.html',
-  },
-  {
-    'title': 'a-summery-sand-writing',
-    'url': 'https://textpro.me/create-a-summery-sand-writing-text-effect-988.html',
-  },
-  {
-    'title': 'Foil-Balloon--For-Birthday',
-    'url': 'https://textpro.me/foil-balloon-text-effect-for-birthday-987.html',
-  },
-  {
-    'title': '3d-glue--with-realistic-style',
-    'url': 'https://textpro.me/create-3d-glue-text-effect-with-realistic-style-986.html',
-  },
-  {
-    'title': 'space-3D',
-    'url': 'https://textpro.me/create-space-3d-text-effect-online-985.html',
-  },
-  {
-    'title': 'Metal-Dark-Gold',
-    'url': 'https://textpro.me/metal-dark-gold-text-effect-984.html',
-  },
-  {
-    'title': 'Glitch--Style-Tik-Tok',
-    'url': 'https://textpro.me/create-glitch-text-effect-style-tik-tok-983.html',
-  },
-  {
-    'title': 'a-Stone',
-    'url': 'https://textpro.me/create-a-stone-text-effect-online-982.html',
-  },
-  {
-    'title': 'Neon-Light--With-Galaxy-Style',
-    'url': 'https://textpro.me/neon-light-text-effect-with-galaxy-style-981.html',
-  },
-  {
-    'title': '1917-Style',
-    'url': 'https://textpro.me/1917-style-text-effect-online-980.html',
-  },
-  {
-    'title': '80\'s-Retro-Neon',
-    'url': 'https://textpro.me/80-s-retro-neon-text-effect-online-979.html',
-  },
-  {
-    'title': 'Minion--3D',
-    'url': 'https://textpro.me/minion-text-effect-3d-online-978.html',
-  },
-  {
-    'title': 'Pornhub-Style-Logo',
-    'url': 'https://textpro.me/pornhub-style-logo-online-generator-free-977.html',
-  },
-  {
-    'title': 'Double-Exposure--Black-&-White',
-    'url': 'https://textpro.me/double-exposure-text-effect-black-white-976.html',
-  },
-  {
-    'title': 'Holographic-3D',
-    'url': 'https://textpro.me/holographic-3d-text-effect-975.html',
-  },
-  {
-    'title': '3D-Avengers-logo',
-    'url': 'https://textpro.me/create-3d-avengers-logo-online-974.html',
-  },
-  {
-    'title': 'Metal-Purple-Dual-Effect',
-    'url': 'https://textpro.me/metal-purple-dual-effect-973.html',
-  },
-  {
-    'title': 'logo-style-Marvel-studios-Ver:-metal',
-    'url': 'https://textpro.me/create-logo-style-marvel-studios-ver-metal-972.html',
-  },
-  {
-    'title': 'logo-style-Marvel-studios',
-    'url': 'https://textpro.me/create-logo-style-marvel-studios-online-971.html',
-  },
-  {
-    'title': 'Deluxe-Silver',
-    'url': 'https://textpro.me/deluxe-silver-text-effect-970.html',
-  },
-  {
-    'title': 'Color-Full-Luxury-Metal',
-    'url': 'https://textpro.me/color-full-luxury-metal-text-effect-969.html',
-  },
-  {
-    'title': 'Glossy-Blue-Metal',
-    'url': 'https://textpro.me/glossy-blue-metal-text-effect-967.html',
-  },
-  {
-    'title': 'Deluxe-Gold',
-    'url': 'https://textpro.me/deluxe-gold-text-effect-966.html',
-  },
-  {
-    'title': 'Glossy-Carbon',
-    'url': 'https://textpro.me/glossy-carbon-text-effect-965.html',
-  },
-  {
-    'title': 'Fabric',
-    'url': 'https://textpro.me/fabric-text-effect-online-964.html',
-  },
-  {
-    'title': 'Neon',
-    'url': 'https://textpro.me/neon-text-effect-online-963.html',
-  },
-  {
-    'title': 'New-Year-Cards-3D-By-Name',
-    'url': 'https://textpro.me/new-year-cards-3d-by-name-960.html',
-  },
-  {
-    'title': 'Happ-new-year-card-firework-gif',
-    'url': 'https://textpro.me/happ-new-year-card-firework-gif-959.html',
-  },
-  {
-    'title': 'Fullcolor-Balloon',
-    'url': 'https://textpro.me/fullcolor-balloon-text-effect-958.html',
-  },
-  {
-    'title': 'Text-Logo-3D-Metal',
-    'url': 'https://textpro.me/create-text-logo-3d-metal-online-957.html',
-  },
-  {
-    'title': 'avatar-gold',
-    'url': 'https://textpro.me/create-avatar-gold-online-956.html',
-  },
-  {
-    'title': 'Text-Logo-3D-Metal-Silver',
-    'url': 'https://textpro.me/text-logo-3d-metal-silver-946.html',
-  },
-  {
-    'title': 'Text-Logo-3D-Metal-Rose-Gold',
-    'url': 'https://textpro.me/text-logo-3d-metal-rose-gold-945.html',
-  },
-  {
-    'title': 'Text-Logo-3D-Metal-Gold',
-    'url': 'https://textpro.me/text-logo-3d-metal-gold-944.html',
-  },
-  {
-    'title': 'Text-Logo-3D-Metal-Galaxy',
-    'url': 'https://textpro.me/text-logo-3d-metal-galaxy-943.html',
-  },
-  {
-    'title': 'Xmas-Cards-3D',
-    'url': 'https://textpro.me/xmas-cards-3d-online-942.html',
-  },
-  {
-    'title': 'Blood-Text-On-The-Frosted-Glass',
-    'url': 'https://textpro.me/blood-text-on-the-frosted-glass-941.html',
-  },
-  {
-    'title': 'Halloween-Fire',
-    'url': 'https://textpro.me/halloween-fire-text-effect-940.html',
-  },
-  {
-    'title': 'Metal-Dark-Gold',
-    'url': 'https://textpro.me/metal-dark-gold-text-effect-online-939.html',
-  },
-  {
-    'title': 'Lion-Logo-Mascot',
-    'url': 'https://textpro.me/create-lion-logo-mascot-online-938.html',
-  },
-  {
-    'title': 'Wolf-Logo-Black-&-White',
-    'url': 'https://textpro.me/create-wolf-logo-black-white-937.html',
-  },
-  {
-    'title': 'Wolf-Logo-Galaxy',
-    'url': 'https://textpro.me/create-wolf-logo-galaxy-online-936.html',
-  },
-  {
-    'title': 'Ninja-Logo',
-    'url': 'https://textpro.me/create-ninja-logo-online-935.html',
-  },
-  {
-    'title': 'Logo-Joker',
-    'url': 'https://textpro.me/create-logo-joker-online-934.html',
-  },
-  {
-    'title': 'Wicker',
-    'url': 'https://textpro.me/wicker-text-effect-online-932.html',
-  },
-  {
-    'title': 'Natural-Leaves',
-    'url': 'https://textpro.me/natural-leaves-text-effect-931.html',
-  },
-  {
-    'title': 'Firework-Sparkle',
-    'url': 'https://textpro.me/firework-sparkle-text-effect-930.html',
-  },
-  {
-    'title': 'Skeleton',
-    'url': 'https://textpro.me/skeleton-text-effect-online-929.html',
-  },
-  {
-    'title': 'Red-Foil-Balloon',
-    'url': 'https://textpro.me/red-foil-balloon-text-effect-928.html',
-  },
-  {
-    'title': 'Purple-Foil-Balloon',
-    'url': 'https://textpro.me/purple-foil-balloon-text-effect-927.html',
-  },
-  {
-    'title': 'Pink-Foil-Balloon',
-    'url': 'https://textpro.me/pink-foil-balloon-text-effect-926.html',
-  },
-  {
-    'title': 'Green-Foil-Balloon',
-    'url': 'https://textpro.me/green-foil-balloon-text-effect-925.html',
-  },
-  {
-    'title': 'Cyan-Foil-Balloon',
-    'url': 'https://textpro.me/cyan-foil-balloon-text-effect-924.html',
-  },
-  {
-    'title': 'Blue-Foil-Balloon',
-    'url': 'https://textpro.me/blue-foil-balloon-text-effect-923.html',
-  },
-  {
-    'title': 'Gold-Foil-Balloon',
-    'url': 'https://textpro.me/gold-foil-balloon-text-effect-922.html',
-  },
-  {
-    'title': 'Steel',
-    'url': 'https://textpro.me/steel-text-effect-online-921.html',
-  },
-  {
-    'title': 'Ultra-Gloss',
-    'url': 'https://textpro.me/ultra-gloss-text-effect-online-920.html',
-  },
-  {
-    'title': 'Denim',
-    'url': 'https://textpro.me/denim-text-effect-online-919.html',
-  },
-  {
-    'title': 'Decorate-Green',
-    'url': 'https://textpro.me/decorate-green-text-effect-918.html',
-  },
-  {
-    'title': 'Decorate-Purple',
-    'url': 'https://textpro.me/decorate-purple-text-effect-917.html',
-  },
-  {
-    'title': 'Peridot-Stone',
-    'url': 'https://textpro.me/peridot-stone-text-effect-916.html',
-  },
-  {
-    'title': 'Rock',
-    'url': 'https://textpro.me/rock-text-effect-online-915.html',
-  },
-  {
-    'title': 'Lava',
-    'url': 'https://textpro.me/lava-text-effect-online-914.html',
-  },
-  {
-    'title': 'Yellow-Glass',
-    'url': 'https://textpro.me/yellow-glass-text-effect-913.html',
-  },
-  {
-    'title': 'Purple-Glass',
-    'url': 'https://textpro.me/purple-glass-text-effect-912.html',
-  },
-  {
-    'title': 'Orange-Glass',
-    'url': 'https://textpro.me/orange-glass-text-effect-911.html',
-  },
-  {
-    'title': 'Green-Glass',
-    'url': 'https://textpro.me/green-glass-text-effect-910.html',
-  },
-  {
-    'title': 'Cyan-Glass',
-    'url': 'https://textpro.me/cyan-glass-text-effect-909.html',
-  },
-  {
-    'title': 'Blue-Glass',
-    'url': 'https://textpro.me/blue-glass-text-effect-908.html',
-  },
-  {
-    'title': 'Red-Glass',
-    'url': 'https://textpro.me/red-glass-text-effect-907.html',
-  },
-  {
-    'title': 'Purple-Shiny-Glass',
-    'url': 'https://textpro.me/purple-shiny-glass-text-effect-906.html',
-  },
-  {
-    'title': 'Captain-America',
-    'url': 'https://textpro.me/captain-america-text-effect-905.html',
-  },
-  {
-    'title': 'Robot-R2-D2',
-    'url': 'https://textpro.me/robot-r2-d2-text-effect-903.html',
-  },
-  {
-    'title': 'Rainbow-Equalizer',
-    'url': 'https://textpro.me/rainbow-equalizer-text-effect-902.html',
-  },
-  {
-    'title': 'Toxic',
-    'url': 'https://textpro.me/toxic-text-effect-online-901.html',
-  },
-  {
-    'title': 'Pink-Sparkling-Jewelry',
-    'url': 'https://textpro.me/pink-sparkling-jewelry-text-effect-899.html',
-  },
-  {
-    'title': 'Blue-Sparkling-Jewelry',
-    'url': 'https://textpro.me/blue-sparkling-jewelry-text-effect-898.html',
-  },
-  {
-    'title': 'Green-Sparkling-Jewelry',
-    'url': 'https://textpro.me/green-sparkling-jewelry-text-effect-897.html',
-  },
-  {
-    'title': 'Purple-Sparkling-Jewelry',
-    'url': 'https://textpro.me/purple-sparkling-jewelry-text-effect-896.html',
-  },
-  {
-    'title': 'Gold-Sparkling-Jewelry',
-    'url': 'https://textpro.me/gold-sparkling-jewelry-text-effect-895.html',
-  },
-  {
-    'title': 'Red-Sparkling-Jewelry',
-    'url': 'https://textpro.me/red-sparkling-jewelry-text-effect-894.html',
-  },
-  {
-    'title': 'Cyan-Sparkling-Jewelry',
-    'url': 'https://textpro.me/cyan-sparkling-jewelry-text-effect-893.html',
-  },
-  {
-    'title': 'Purple-Glass',
-    'url': 'https://textpro.me/purple-glass-text-effect-online-892.html',
-  },
-  {
-    'title': 'Decorative-Glass',
-    'url': 'https://textpro.me/decorative-glass-text-effect-891.html',
-  },
-  {
-    'title': 'Chocolate-Cake',
-    'url': 'https://textpro.me/chocolate-cake-text-effect-890.html',
-  },
-  {
-    'title': 'Strawberry',
-    'url': 'https://textpro.me/strawberry-text-effect-online-889.html',
-  },
-  {
-    'title': 'Koi-Fish',
-    'url': 'https://textpro.me/koi-fish-text-effect-online-888.html',
-  },
-  {
-    'title': 'Bread',
-    'url': 'https://textpro.me/bread-text-effect-online-887.html',
-  },
-  {
-    'title': 'Matrix-Style',
-    'url': 'https://textpro.me/matrix-style-text-effect-online-884.html',
-  },
-  {
-    'title': 'Horror-Blood',
-    'url': 'https://textpro.me/horror-blood-text-effect-online-883.html',
-  },
-  {
-    'title': 'Neon-Light',
-    'url': 'https://textpro.me/neon-light-text-effect-online-882.html',
-  },
-  {
-    'title': 'Thunder',
-    'url': 'https://textpro.me/create-thunder-text-effect-online-881.html',
-  },
-  {
-    'title': '3D-Box',
-    'url': 'https://textpro.me/3d-box-text-effect-online-880.html',
-  },
-  {
-    'title': 'Neon',
-    'url': 'https://textpro.me/neon-text-effect-online-879.html',
-  },
-  {
-    'title': 'Road-Warning',
-    'url': 'https://textpro.me/road-warning-text-effect-878.html',
-  },
-  {
-    'title': '3D-Steel',
-    'url': 'https://textpro.me/3d-steel-text-effect-877.html',
-  },
-  {
-    'title': 'Bokeh',
-    'url': 'https://textpro.me/bokeh-text-effect-876.html',
-  },
-  {
-    'title': 'Green-Neon',
-    'url': 'https://textpro.me/green-neon-text-effect-874.html',
-  },
-  {
-    'title': '3D-Glowing-Metal',
-    'url': 'https://textpro.me/3d-glowing-metal-text-effect-828.html',
-  },
-  {
-    'title': '3D-Chrome',
-    'url': 'https://textpro.me/3d-chrome-text-effect-827.html',
-  },
-];
-
-async function maker(url, text) {
-   if (/https?:\/\/(ephoto360|photooxy|textpro)\/\.(com|me)/i.test(url)) throw new Error("URL Invalid")
-   try {
-      let a = await axios.get(url, {
-         headers: {
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-            "Origin": (new URL(url)).origin,
-            "Referer": url,
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.188"
-         }
-      })
-      let $ = cheerio.load(a.data)
-      let server = $('#build_server').val()
-      let serverId = $('#build_server_id').val()
-      let token = $('#token').val()
-      let submit = $('#submit').val()
-      let types = [];
-      $('input[name="radio0[radio]"]').each((i, elem) => {
-         types.push($(elem).attr("value"));
-      })
-      let post;
-      if (types.length != 0) {
-         post = {
-            'radio0[radio]': types[Math.floor(Math.random() * types.length)],
-            'submit': submit,
-            'token': token,
-            'build_server': server,
-            'build_server_id': Number(serverId)
-         };
-      }
-      else {
-         post = {
-            'submit': submit,
-            'token': token,
-            'build_server': server,
-            'build_server_id': Number(serverId)
-         }
-      }
-      let form = new FormData()
-      for (let i in post) {
-         form.append(i, post[i])
-      }
-      if (typeof text == "string") text = [text]
-      for (let i of text) form.append("text[]", i)
-      let b = await axios.post(url, form, {
-         headers: {
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-            "Origin": (new URL(url)).origin,
-            "Referer": url,
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.188", 
-            "Cookie": a.headers.get("set-cookie").join("; "),
-            ...form.getHeaders()
-         }
-      })
-      $ = cheerio.load(b.data)
-      let out = ($('#form_value').first().text() || $('#form_value_input').first().text() || $('#form_value').first().val() || $('#form_value_input').first().val())
-      let c = await axios.post((new URL(url)).origin + "/effect/create-image", JSON.parse(out), {
-         headers: {
-            "Accept": "*/*",
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            "Origin": (new URL(url)).origin,
-            "Referer": url,
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.188",
-            "Cookie": a.headers.get("set-cookie").join("; ")
-         }
-      })
-      return {status: c.data?.success, image: server + (c.data?.fullsize_image || c.data?.image || ""), session: c.data?.session_id}
-   } catch (e) {
-      throw e
-   }
+async function search(query, options = {}) {
+const search = await yts.search({query, hl: 'es', gl: 'ES', ...options});
+return search.videos;
 }
+
+function MilesNumber(number) {
+const exp = /(\d)(?=(\d{3})+(?!\d))/g;
+const rep = '$1.';
+const arr = number.toString().split('.');
+arr[0] = arr[0].replace(exp, rep);
+return arr[1] ? arr.join('.') : arr[0];
+}
+
+function secondString(seconds) {
+seconds = Number(seconds);
+const d = Math.floor(seconds / (3600 * 24));
+const h = Math.floor((seconds % (3600 * 24)) / 3600);
+const m = Math.floor((seconds % 3600) / 60);
+const s = Math.floor(seconds % 60);
+const dDisplay = d > 0 ? d + (d == 1 ? ' día, ' : ' días, ') : '';
+const hDisplay = h > 0 ? h + (h == 1 ? ' hora, ' : ' horas, ') : '';
+const mDisplay = m > 0 ? m + (m == 1 ? ' minuto, ' : ' minutos, ') : '';
+const sDisplay = s > 0 ? s + (s == 1 ? ' segundo' : ' segundos') : '';
+return dDisplay + hDisplay + mDisplay + sDisplay;
+  }
+  
+const getBuffer = async (url) => {
+  try {
+    const response = await fetch(url);
+    const buffer = await response.arrayBuffer();
+    return Buffer.from(buffer);
+  } catch (error) {
+    console.error("Error al obtener el buffer", error);
+    throw new Error("Error al obtener el buffer");
+  }
+}
+
+async function getFileSize(url) {
+    try {
+        const response = await fetch(url, { method: 'HEAD' });
+        const contentLength = response.headers.get('content-length');
+        return contentLength ? parseInt(contentLength, 10) : 0;
+    } catch (error) {
+        console.error("Error al obtener el tamaño del archivo", error);
+        return 0;
+    }
+}
+
+async function fetchY2mate(url) {
+  const baseUrl = 'https://www.y2mate.com/mates/en60';
+  const videoInfo = await fetch(`${baseUrl}/analyze/ajax`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ url, q_auto: 0 })
+  }).then(res => res.json());
+
+  const id = videoInfo.result.id;
+  const downloadInfo = await fetch(`${baseUrl}/convert`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ type: 'youtube', _id: id, v_id: url, token: '', ftype: 'mp4', fquality: '360p' })
+  }).then(res => res.json());
+
+  return downloadInfo.result.url;
+}
+
+async function fetchInvidious(url) {
+  const apiUrl = `https://invidious.io/api/v1/get_video_info`;
+
+const response = await fetch(`${apiUrl}?url=${encodeURIComponent(url)}`);
+const data = await response.json();
+
+if (data && data.video) {
+const videoInfo = data.video;
+return videoInfo; 
+} else {
+throw new Error("No se pudo obtener información del video desde Invidious");
+  }
+}
+
+async function fetch9Convert(url) {
+const apiUrl = `https://9convert.com/en429/api`;
+const response = await fetch(`${apiUrl}?url=${encodeURIComponent(url)}`);
+const data = await response.json();
+
+if (data.status === 'ok') {
+    return data.result.mp3;
+  } else {
+    throw new Error("No se pudo obtener la descarga desde 9Convert");
+  }
+  }
