@@ -1,4 +1,4 @@
-let WAMessageStubType = (await import(global.baileys)).default
+/*let WAMessageStubType = (await import(global.baileys)).default
 import { readdirSync, unlinkSync, existsSync, promises as fs, rmSync } from 'fs';
 import path from 'path';
 import './_content.js'
@@ -50,3 +50,4 @@ await this.sendMessage(m.chat, { text: lenguajeGB['smsAvisoIIG']() + mid.smsAuto
 //})
 }}
 export default handler
+*/
