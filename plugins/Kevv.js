@@ -1,6 +1,6 @@
 const handler = async (m, {conn}) => {
   try {
-    const pp = imagen6;
+    const pp = imagen7;
     const img = await(await fetch('https://instagram.com/jeffomx15?igshid=OGQ5ZDc2ODk2ZA==')).buffer();
     const _uptime = process.uptime() * 1000;
     const uptime = clockString(_uptime);
