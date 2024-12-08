@@ -1,81 +1,83 @@
-let WAMessageStubType = (await import(global.baileys)).default
-import { readdirSync, unlinkSync, existsSync, promises as fs, rmSync } from 'fs';
-import path from 'path';
-import './_content.js'
-
-let handler = m => m
-handler.before = async function (m, { conn, participants, groupMetadata}) {
-
-if (!m.messageStubType || !m.isGroup) return
-let usuario = `@${m.sender.split`@`[0]}`
-let chat = global.db.data.chats[m.chat]
-let users = participants.map(u => conn.decodeJid(u.id))
-const groupAdmins = participants.filter(p => p.admin)
-const listAdmin = groupAdmins.map((v, i) => `*» ${i + 1}. @${v.id.split('@')[0]}*`).join('\n')
-if (chat.detect && m.messageStubType == 2) {
-const chatId = m.isGroup ? m.chat : m.sender;
-const uniqid = chatId.split('@')[0];
-const sessionPath = './GataBotSession/';
-const files = await fs.readdir(sessionPath);
-let filesDeleted = 0;
-for (const file of files) {
-if (file.includes(uniqid)) {
-await fs.unlink(path.join(sessionPath, file));
-filesDeleted++;
-console.log(`⚠️ Eliminacion session (PreKey) que provocan el undefined el chat`)
-}}}
-  
-if (chat.detect && m.messageStubType == 21) {
-await this.sendMessage(m.chat, { text: lenguajeGB['smsAvisoAG']() + mid.smsAutodetec1(usuario, m), mentions: [m.sender], mentions: [...groupAdmins.map(v => v.id)] }, { quoted: fkontak })   
-} else if (chat.detect && m.messageStubType == 22) {
-await this.sendMessage(m.chat, { text: lenguajeGB['smsAvisoIIG']() + mid.smsAutodetec2(usuario, groupMetadata), mentions: [m.sender] }, { quoted: fkontak })  
-} else if (chat.detect && m.messageStubType == 23) {
-await this.sendMessage(m.chat, { text: lenguajeGB['smsAvisoIIG']() + mid.smsAutodetec5(groupMetadata, usuario), mentions: [m.sender] }, { quoted: fkontak }) 
-} else if (chat.detect && m.messageStubType == 24) {
-await this.sendMessage(m.chat, { text: lenguajeGB['smsAvisoIIG']() + mid.smsAutodetec3(usuario, m), mentions: [m.sender] }, { quoted: fkontak }) 
-} else if (chat.detect && m.messageStubType == 25) {
-await this.sendMessage(m.chat, { text: lenguajeGB['smsAvisoIIG']() + mid.smsAutodetec4(usuario, m, groupMetadata), mentions: [m.sender] }, { quoted: fkontak })
-} else if (chat.detect && m.messageStubType == 26) {
-await this.sendMessage(m.chat, { text: lenguajeGB['smsAvisoIIG']() + mid.smsAutodetec6(m), mentions: [m.sender] }, { quoted: fkontak })
-} else if (chat.detect && m.messageStubType == 29) {
-await this.sendMessage(m.chat, { text: mid.smsAutodetec7(m, usuario), mentions: [m.sender, m.messageStubParameters[0], ...groupAdmins.map(v => v.id)] }, { quoted: fkontak }) 
-} else if (chat.detect && m.messageStubType == 30) {
-await this.sendMessage(m.chat, { text: mid.smsAutodetec8(m, usuario), mentions: [m.sender, m.messageStubParameters[0], ...groupAdmins.map(v => v.id)] }, { quoted: fkontak }) 
-} else if (chat.detect && m.messageStubType == 72) {
-await this.sendMessage(m.chat, { text: lenguajeGB['smsAvisoIIG']() + mid.smsAutodetec9(usuario, m), mentions: [m.sender] }, { quoted: fkontak })
-} else if (chat.detect && m.messageStubType === 172 && m.messageStubParameters.length > 0) {
-const rawUser = m.messageStubParameters[0];
-const users = rawUser.split('@')[0]; 
-const prefijosProhibidos = ['91', '92', '222', '93', '265', '61', '62', '966', '229', '40', '49', '20', '963', '967', '234', '210', '212'];
-const usersConPrefijo = users.startsWith('+') ? users : `+${users}`;
-
-if (chat.antifake) {
-if (prefijosProhibidos.some(prefijo => usersConPrefijo.startsWith(prefijo))) {
-try {
-await conn.groupRequestParticipantsUpdate(m.chat, [rawUser], 'reject');
-console.log(`Solicitud de ingreso de ${usersConPrefijo} rechazada automáticamente por tener un prefijo prohibido.`);
-} catch (error) {
-console.error(`Error al rechazar la solicitud de ${usersConPrefijo}:`, error);
-}} else {
-try {
-await conn.groupRequestParticipantsUpdate(m.chat, [rawUser], 'approve');
-console.log(`Solicitud de ingreso de ${usersConPrefijo} aprobada automáticamente.`);
-} catch (error) {
-console.error(`Error al aprobar la solicitud de ${usersConPrefijo}:`, error);
-}}} else {
-try {
-await conn.groupRequestParticipantsUpdate(m.chat, [rawUser], 'approve');
-console.log(`Solicitud de ingreso de ${usersConPrefijo} aprobada automáticamente ya que #antifake está desactivado.`);
-} catch (error) {
-console.error(`Error al aprobar la solicitud de ${usersConPrefijo}:`, error);
-}}
-return;
-} if (chat.detect && m.messageStubType == 123) {
-await this.sendMessage(m.chat, { text: lenguajeGB['smsAvisoIIG']() + mid.smsAutodetec10(usuario, m), mentions: [m.sender] }, { quoted: fkontak })
-} else {
-console.log({messageStubType: m.messageStubType,
-messageStubParameters: m.messageStubParameters,
-type: WAMessageStubType[m.messageStubType], 
-})
-}}
-export default handler
+let WAMessageStubType = (await import(global.baileys)).default;
+export async function before(m, {conn}) {
+  if (!m.messageStubType || !m.isGroup) return;
+  let usuario = `@${m.sender.split`@`[0]}`;
+  let fkontak = {
+    key: {participants: "0@s.whatsapp.net", remoteJid: "status@broadcast", fromMe: false, id: "Halo"},
+    message: {
+      contactMessage: {
+        vcard: `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split("@")[0]}:${
+          m.sender.split("@")[0]
+        }\nitem1.X-ABLabel:Ponsel\nEND:VCARD`,
+      },
+    },
+    participant: "0@s.whatsapp.net",
+  };
+  if (m.messageStubType == 21) {
+    await this.sendMessage(
+      m.chat,
+      {text: `_.🎌${usuario} Cambio el nombre  del grupo a :_\n\n_${m.messageStubParameters[0]}_`, mentions: [m.sender]},
+      {quoted: fkontak}
+    );
+  } else if (m.messageStubType == 22) {
+    await this.sendMessage(m.chat, {text: `_.🎌${usuario} Cambio la foto del grupo_`, mentions: [m.sender]}, {quoted: fkontak});
+  } else if (m.messageStubType == 24) {
+    await this.sendMessage(
+      m.chat,
+      {text: `_.🎌${usuario} La nueva descripción del grupo es :_\n\n_${m.messageStubParameters[0]}_`, mentions: [m.sender]},
+      {quoted: fkontak}
+    );
+  } else if (m.messageStubType == 25) {
+    await this.sendMessage(
+      m.chat,
+      {
+        text: `_.🎌Ahora_ _${m.messageStubParameters[0] == "on" ? "SOLO LOS ADMINISTRADORES" : "MIEMBROS"}_ _pueden editar la info del grupo_`,
+        mentions: [m.sender],
+      },
+      {quoted: fkontak}
+    );
+  } else if (m.messageStubType == 26) {
+    await this.sendMessage(
+      m.chat,
+      {
+        text: `_.🎌Grupo_ _${m.messageStubParameters[0] == "on" ? "Cerrado 🔒" : "Abierto 🔓"}_\n ${
+          m.messageStubParameters[0] == "on" ? "_.🎌Solo los administradores pueden escribir_" : "_. 🎌Ya pueden escribir todos_"
+        } En este grupo`,
+        mentions: [m.sender],
+      },
+      {quoted: fkontak}
+    );
+  } else if (m.messageStubType == 29) {
+    await this.sendMessage(
+      m.chat,
+      {
+        text: `_.🎌@${m.messageStubParameters[0].split`@`[0]}Es admin del grupo_\n\n_. 🎌Le dio admin :_  _${usuario}_`,
+        mentions: [`${m.sender}`, `${m.messageStubParameters[0]}`],
+      },
+      {quoted: fkontak}
+    );
+  } else if (m.messageStubType == 30) {
+    await this.sendMessage(
+      m.chat,
+      {
+        text: `._🎌@${m.messageStubParameters[0].split`@`[0]} Ya no es admin_\n\n._ 🎌Le quito admin :_ _${usuario}_`,
+        mentions: [`${m.sender}`, `${m.messageStubParameters[0]}`],
+      },
+      {quoted: fkontak}
+    );
+  } else if (m.messageStubType == 72) {
+    await this.sendMessage(
+      m.chat,
+      {text: `_.🎌${usuario} Cambio la duracion de los mensajes a :_ _@${m.messageStubParameters[0]}_`, mentions: [m.sender]},
+      {quoted: fkontak}
+    );
+  } else if (m.messageStubType == 123) {
+    await this.sendMessage(m.chat, {text: `._ ᩭ✎${usuario} Desactivo los mensajes temporales._`, mentions: [m.sender]}, {quoted: fkontak});
+  } else {
+    console.log({
+      messageStubType: m.messageStubType,
+      messageStubParameters: m.messageStubParameters,
+      type: WAMessageStubType[m.messageStubType],
+    });
+  }
+}
