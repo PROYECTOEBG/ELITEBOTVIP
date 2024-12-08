@@ -1,10 +1,13 @@
 let WAMessageStubType = (await import(global.baileys)).default
 import { readdirSync, unlinkSync, existsSync, promises as fs, rmSync } from 'fs';
 import path from 'path';
-export async function before(m, { conn, participants}) {
+
+let handler = m => m
+handler.before = async function (m, { conn, participants, groupMetadata}) {
+
+let fkontak = { "key": { "participants":"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net" }
 if (!m.messageStubType || !m.isGroup) return
 let usuario = `@${m.sender.split`@`[0]}`
-
 let chat = global.db.data.chats[m.chat]
 let users = participants.map(u => conn.decodeJid(u.id))
 const groupAdmins = participants.filter(p => p.admin)
@@ -12,15 +15,15 @@ const listAdmin = groupAdmins.map((v, i) => `*» ${i + 1}. @${v.id.split('@')[0]
 if (chat.detect && m.messageStubType == 2) {
 const chatId = m.isGroup ? m.chat : m.sender;
 const uniqid = chatId.split('@')[0];
-const sessionPath = './GataBotSession/';
+const sessionPath = './NatsukiSessions/';
 const files = await fs.readdir(sessionPath);
 let filesDeleted = 0;
 for (const file of files) {
 if (file.includes(uniqid)) {
 await fs.unlink(path.join(sessionPath, file));
 filesDeleted++;
-console.log(`Eliminacion session (PreKey) que provocan el undefined el chat`)}}
-
+console.log(`⚠️ Eliminacion session (PreKey) que provocan el undefined el chat`)
+}}}
 
 if (chat.detect && m.messageStubType == 21) {
 await this.sendMessage(m.chat, { text: lenguajeGB['smsAvisoAG']() + mid.smsAutodetec1(usuario, m), mentions: [m.sender], mentions: [...groupAdmins.map(v => v.id)] }, { quoted: fkontak })   
@@ -43,9 +46,36 @@ await this.sendMessage(m.chat, { text: lenguajeGB['smsAvisoIIG']() + mid.smsAuto
 } else if (chat.detect && m.messageStubType === 172 && m.messageStubParameters.length > 0) {
 const rawUser = m.messageStubParameters[0];
 const users = rawUser.split('@')[0]; 
+const prefijosProhibidos = ['91', '92', '222', '93', '265', '61', '62', '966', '229', '40', '49', '20', '963', '967', '234', '210', '212'];
+const usersConPrefijo = users.startsWith('+') ? users : `+${users}`;
 
-  
+if (chat.antifake) {
+if (prefijosProhibidos.some(prefijo => usersConPrefijo.startsWith(prefijo))) {
+try {
+await conn.groupRequestParticipantsUpdate(m.chat, [rawUser], 'reject');
+console.log(`Solicitud de ingreso de ${usersConPrefijo} rechazada automáticamente por tener un prefijo prohibido.`);
+} catch (error) {
+console.error(`Error al rechazar la solicitud de ${usersConPrefijo}:`, error);
+}} else {
+try {
+await conn.groupRequestParticipantsUpdate(m.chat, [rawUser], 'approve');
+console.log(`Solicitud de ingreso de ${usersConPrefijo} aprobada automáticamente.`);
+} catch (error) {
+console.error(`Error al aprobar la solicitud de ${usersConPrefijo}:`, error);
+}}} else {
+try {
+await conn.groupRequestParticipantsUpdate(m.chat, [rawUser], 'approve');
+console.log(`Solicitud de ingreso de ${usersConPrefijo} aprobada automáticamente ya que #antifake está desactivado.`);
+} catch (error) {
+console.error(`Error al aprobar la solicitud de ${usersConPrefijo}:`, error);
+}}
+return;
+} if (chat.detect && m.messageStubType == 123) {
+await this.sendMessage(m.chat, { text: lenguajeGB['smsAvisoIIG']() + mid.smsAutodetec10(usuario, m), mentions: [m.sender] }, { quoted: fkontak })
+} else {
 console.log({messageStubType: m.messageStubType,
 messageStubParameters: m.messageStubParameters,
 type: WAMessageStubType[m.messageStubType], 
-})}}*
+})
+}}
+export default handler
