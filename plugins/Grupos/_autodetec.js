@@ -20,6 +20,8 @@ if (file.includes(uniqid)) {
 await fs.unlink(path.join(sessionPath, file));
 filesDeleted++;
 console.log(`Eliminacion session (PreKey) que provocan el undefined el chat`)}}
+
+
 if (chat.detect && m.messageStubType == 21) {
 await this.sendMessage(m.chat, { text: lenguajeGB['smsAvisoAG']() + mid.smsAutodetec1(usuario, m), mentions: [m.sender], mentions: [...groupAdmins.map(v => v.id)] }, { quoted: fkontak })   
 } else if (chat.detect && m.messageStubType == 22) {
@@ -38,9 +40,11 @@ await this.sendMessage(m.chat, { text: mid.smsAutodetec7(m, usuario), mentions: 
 await this.sendMessage(m.chat, { text: mid.smsAutodetec8(m, usuario), mentions: [m.sender, m.messageStubParameters[0], ...groupAdmins.map(v => v.id)] }, { quoted: fkontak }) 
 } else if (chat.detect && m.messageStubType == 72) {
 await this.sendMessage(m.chat, { text: lenguajeGB['smsAvisoIIG']() + mid.smsAutodetec9(usuario, m), mentions: [m.sender] }, { quoted: fkontak })
-} else if (chat.detect && m.messageStubType == 123) {
-await this.sendMessage(m.chat, { text: lenguajeGB['smsAvisoIIG']() + mid.smsAutodetec10(usuario, m), mentions: [m.sender] }, { quoted: fkontak })
-} else {
+} else if (chat.detect && m.messageStubType === 172 && m.messageStubParameters.length > 0) {
+const rawUser = m.messageStubParameters[0];
+const users = rawUser.split('@')[0]; 
+
+  
 console.log({messageStubType: m.messageStubType,
 messageStubParameters: m.messageStubParameters,
 type: WAMessageStubType[m.messageStubType], 
