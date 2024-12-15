@@ -72,7 +72,7 @@ mediaType: 1,
 showAdAttribution: true,
 renderLargerThumbnail: true
 }}} , { quoted: m })*/
-} catch {
+/*} catch {
 }}}}}
 }  
 if (command == 'play8') {
