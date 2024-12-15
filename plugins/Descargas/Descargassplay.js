@@ -189,4 +189,4 @@ let url = [];
 for (let i = 0; i < result.length; i++) { url.push(result[i].url) }
 let random = url[0];
 let getVideo = await ytMp4(random);
-resolve(getVideo)}).catch(reject)})};
+resolve(getVideo)}).catch(reject)})};+/
