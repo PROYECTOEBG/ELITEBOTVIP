@@ -1,4 +1,4 @@
-/*import yts from 'yt-search';
+import yts from 'yt-search';
 
 let handler = async (m, { conn, text, args, isPrems, isOwner, usedPrefix, command }) => {
     
@@ -43,4 +43,4 @@ ${usedPrefix + command} Feid - Luna`;
 
 handler.command = ['play', 'youtube'];
 export default handler;
-*/
+
