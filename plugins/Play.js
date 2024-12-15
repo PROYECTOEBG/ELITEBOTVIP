@@ -11,28 +11,9 @@ if (command == 'play' || command == 'musica') {
 if (!text) throw `Que Busca\n*${usedPrefix + command} Billie Eilish - Bellyache*`
 const yt_play = await search(args.join(' '));
 const ytplay2 = await yts(text);
-const texto1 = `Play-
-
-ও Titulo
-» ${yt_play[0].title}
-﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
-ও Fecha
-» ${yt_play[0].ago}
-﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
-ও Duración 
-» ${secondString(yt_play[0].duration.seconds)}
-﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
-ও  Vista
-» ${MilesNumber(yt_play[0].views)}
-﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
-ও  Autor
-» ${yt_play[0].author.name}
-﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
-ও Link
-» ${yt_play[0].url}
-
-
-> _*Descargado su audio. Aguarde un momento, por favor*_`.trim();
+const texto1 = `01:27 ━━━━━⬤──── 3:28
+*⇄ㅤ   ◁   ㅤ  ❚❚ㅤ     ▷ㅤ   ↻*
+𝙀𝙡𝙞𝙩𝙚 𝘽𝙤𝙩 𝙂𝙡𝙤𝙗𝙖𝙡`.trim();
 
 await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null);
 try {
