@@ -8,14 +8,14 @@ const LimitVid = 425 * 1024 * 1024; //425MB
 const handler = async (m, {conn, command, args, text, usedPrefix}) => {
 
 if (command == 'play' || command == 'musica') {
-if (!text) return m.reply(`*🤔Que está buscando? 🤔*\n*Ingrese el nombre de la canción*\n\n*Ejemplo:*\n#play emilia 420`) 
+if (!text) throw `Que Busca\n*${usedPrefix + command} Billie Eilish - Bellyache*`
 const yt_play = await search(args.join(' '));
 const ytplay2 = await yts(text);
-await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', `${yt_play[0].title}
-*⇄ㅤ     ◁   ㅤ  ❚❚ㅤ     ▷ㅤ     ↻*
+const texto1 = `01:27 ━━━━━⬤──── 2:56
+*⇄ㅤ   ◁   ㅤ  ❚❚ㅤ     ▷ㅤ   ↻*
+𝙀𝙡𝙞𝙩𝙚 𝘽𝙤𝙩 𝙂𝙡𝙤𝙗𝙖𝙡 `.trim();
 
-*⏰ Duración:* ${secondString(yt_play[0].duration.seconds)}
-*👉🏻Aguarde un momento en lo que envío su audio*`, m, null, fake);
+await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null);
 try {
 const apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${encodeURIComponent(yt_play[0].url)}`;
 const apiResponse = await fetch(apiUrl);
@@ -60,14 +60,34 @@ console.log(e);
 }}}}}}}
 
 if (command == 'play2' || command == 'video') {
-if (!text) return m.reply(`*🤔Que está buscando? 🤔*\n*Ingrese el nombre de la canción*\n\n*Ejemplo:*\n#play emilia 420`) 
+if (!text) throw `Que Busca\n*${usedPrefix + command} Billie Eilish - Bellyache*`
 const yt_play = await search(args.join(' '));
 const ytplay2 = await yts(text);
-await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', `${yt_play[0].title}
-*⇄ㅤ     ◁   ㅤ  ❚❚ㅤ     ▷ㅤ     ↻*
+const texto1 = `Play-
 
-*⏰ Duración:* ${secondString(yt_play[0].duration.seconds)}
-*👉🏻Aguarde un momento en lo que envío su video*`, m, null, fake);
+ও Titulo
+» ${yt_play[0].title}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Fecha
+» ${yt_play[0].ago}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Duración 
+» ${secondString(yt_play[0].duration.seconds)}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও  Vista
+» ${MilesNumber(yt_play[0].views)}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও  Autor
+» ${yt_play[0].author.name}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Link
+» ${yt_play[0].url}
+
+
+
+> _*Descargado su video. Aguarde un momento, por favor*_`.trim();
+
+await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null, rcanal);
 try {
 const apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${encodeURIComponent(yt_play[0].url)}`;
 const apiResponse = await fetch(apiUrl);
@@ -76,9 +96,9 @@ if (!delius.status) return m.react("❌");
 const downloadUrl = delius.data.download.url;
 const fileSize = await getFileSize(downloadUrl);
 if (fileSize > LimitVid) {
-await conn.sendMessage(m.chat, { document: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `🔰 Aquí está tu video \n🔥 Título: ${yt_play[0].title}` }, { quoted: m });
+await conn.sendMessage(m.chat, { document: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣` }, { quoted: m });
 } else {
-await conn.sendMessage(m.chat, { video: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `🔰 Aquí está tu video \n🔥 Título: ${yt_play[0].title}`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
+await conn.sendMessage(m.chat, { video: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
 }} catch (e1) {
 try {    
 let qu = args[1] || '360'
@@ -87,27 +107,27 @@ const yt = await youtubedl(yt_play[0].url).catch(async _ => await youtubedlv2(yt
 const dl_url = await yt.video[q].download()
 const ttl = await yt.title
 const size = await yt.video[q].fileSizeH
-await await conn.sendMessage(m.chat, { video: { url: dl_url }, fileName: `${ttl}.mp4`, mimetype: 'video/mp4', caption: `🔰 𝘼𝙦𝙪𝙞 𝙚𝙨𝙩𝙖 𝙩𝙪 𝙫𝙞𝙙𝙚𝙤 \n🔥 𝙏𝙞𝙩𝙪𝙡𝙤: ${ttl}`, thumbnail: await fetch(yt.thumbnail) }, { quoted: m })
+await await conn.sendMessage(m.chat, { video: { url: dl_url }, fileName: `${ttl}.mp4`, mimetype: 'video/mp4', caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: await fetch(yt.thumbnail) }, { quoted: m })
 } catch (e2) {
 try {    
 const downloadUrl = await fetch9Convert(yt_play[0].url); 
-await conn.sendMessage(m.chat, { video: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `🔰 Aquí está tu video \n🔥 Título: ${yt_play[0].title}`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
+await conn.sendMessage(m.chat, { video: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
 } catch (e3) {
 try {
 const downloadUrl = await fetchY2mate(yt_play[0].url);
-await conn.sendMessage(m.chat, { video: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `🔰 Aquí está tu video \n🔥 Título: ${yt_play[0].title}`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
+await conn.sendMessage(m.chat, { video: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
 } catch (e4) {
 try {
 const videoInfo = await fetchInvidious(yt_play[0].url)
 const downloadUrl = videoInfo.videoFormats.find(format => format.mimeType === "audio/mp4").url;
-await conn.sendMessage(m.chat, { video: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `🔰 Aquí está tu video \n🔥 Título: ${yt_play[0].title}`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
+await conn.sendMessage(m.chat, { video: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
 } catch (e5) {
 try {
 let searchh = await yts(yt_play[0].url)
 let __res = searchh.all.map(v => v).filter(v => v.type == "video")
 let infoo = await ytdl.getInfo('https://youtu.be/' + __res[0].videoId)
 let ress = await ytdl.chooseFormat(infoo.formats, { filter: 'audioonly' })
-conn.sendMessage(m.chat, { video: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `🔰 Aquí está tu video \n🔥 Título: ${yt_play[0].title}`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
+conn.sendMessage(m.chat, { video: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
 } catch (e6) {
 try {
 let d2 = await fetch(`https://exonity.tech/api/ytdlp2-faster?apikey=adminsepuh&url=${yt_play[0].url}`);
@@ -115,27 +135,42 @@ let dp = await d2.json();
 const audiop = await getBuffer(dp.result.media.mp4);
 const fileSize = await getFileSize(dp.result.media.mp4);
 if (fileSize > LimitVid) {
-await conn.sendMessage(m.chat, { document: { url: audiop }, fileName: `${yt_play[0].title}.mp4`, caption: `🔰 Aquí está tu video \n🔥 Título: ${yt_play[0].title}` }, { quoted: m });
+await conn.sendMessage(m.chat, { document: { url: audiop }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión❱━⬣\n┃ 💜 YotsubaBot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣` }, { quoted: m });
 } else {
-await conn.sendMessage(m.chat, { video: { url: audiop }, fileName: `${yt_play[0].title}.mp4`, caption: `🔰 Aquí está tu video \n🔥 Título: ${yt_play[0].title}`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
+await conn.sendMessage(m.chat, { video: { url: audiop }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰ Versión ❱━⬣\n┃ 💜 Yotsuba\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m });
 }} catch (e) {    
 await m.react('❌');
 console.log(e);
 }}}}}}}}
 
 if (command == 'play3' || command == 'playdoc') {
-if (!text) return m.reply(`*🤔Que está buscando? 🤔*\n*Ingrese el nombre de la canción*\n\n*Ejemplo:*\n#play emilia 420`) 
+if (!text) throw `Que Busca\n*${usedPrefix + command} Billie Eilish - Bellyache*`
 const yt_play = await search(args.join(' '));
 const ytplay2 = await yts(text);
-const texto1 = `${yt_play[0].title}
-*⇄ㅤ     ◁   ㅤ  ❚❚ㅤ     ▷ㅤ     ↻*
+const texto1 = `Play-
 
-*⏰ Duración:* ${secondString(yt_play[0].duration.seconds)}
-*👉🏻 Descargado el audio 🔊 en documentos, aguarden un momento por favor....*
+ও Titulo
+» ${yt_play[0].title}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Fecha
+» ${yt_play[0].ago}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Duración 
+» ${secondString(yt_play[0].duration.seconds)}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও  Vista
+» ${MilesNumber(yt_play[0].views)}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও  Autor
+» ${yt_play[0].author.name}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Link
+» ${yt_play[0].url}
 
-> _*Si este comando falla usar de la seguirte manera:*_ #ytmp3doc ${yt_play[0].url}`.trim();
 
-await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null, fake);
+> > _*Descargado su audio en documento. Aguarde un momento, por favor*_`.trim();
+
+await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null, rcanal);
 try {
 const apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${encodeURIComponent(yt_play[0].url)}`;
 const apiResponse = await fetch(apiUrl);
@@ -179,18 +214,33 @@ console.log(e);
 }}}}}}}
 
 if (command == 'play4' || command == 'playdoc2') {
-if (!text) return m.reply(`*🤔Que está buscando? 🤔*\n*Ingrese el nombre de la canción*\n\n*Ejemplo:*\n#play emilia 420`) 
+if (!text) throw `Que Busca\n*${usedPrefix + command} Billie Eilish - Bellyache*`
 const yt_play = await search(args.join(' '));
 const ytplay2 = await yts(text);
-const texto1 = `${yt_play[0].title}
-*⇄ㅤ     ◁   ㅤ  ❚❚ㅤ     ▷ㅤ     ↻*
+const texto1 = `Play-
 
-*⏰ Duración:* ${secondString(yt_play[0].duration.seconds)}
-*👉🏻 Descargado el vídeo 🎥 en documentos, aguarden un momento por favor....*
+ও Titulo
+» ${yt_play[0].title}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Fecha
+» ${yt_play[0].ago}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Duración 
+» ${secondString(yt_play[0].duration.seconds)}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও  Vista
+» ${MilesNumber(yt_play[0].views)}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও  Autor
+» ${yt_play[0].author.name}
+﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘﹘
+ও Link
+» ${yt_play[0].url}
 
-> _*Si este comando falla usar de la seguirte manera:*_ #ytmp4doc ${yt_play[0].url}`.trim();
 
-await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null, fake);
+> > _*Descargado su video en documento. Aguarde un momento, por favor*_`.trim();
+
+await conn.sendFile(m.chat, yt_play[0].thumbnail, 'error.jpg', texto1, m, null, rcanal);
 try {
 const apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${encodeURIComponent(yt_play[0].url)}`;
 const apiResponse = await fetch(apiUrl);
@@ -198,7 +248,7 @@ const delius = await apiResponse.json();
 if (!delius.status) return m.react("❌");
 const downloadUrl = delius.data.download.url;
 //const fileSize = await getFileSize(downloadUrl);
-await conn.sendMessage(m.chat, { document: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `${wm}`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m })     
+await conn.sendMessage(m.chat, { document: { url: downloadUrl }, fileName: `${yt_play[0].title}.mp4`, caption: `╭━❰  Versión  ❱━⬣\n┃ 💜 Yotsubabot\n┃ ${yt_play[0].title}\n╰━━━━━❰ *2.0* ❱━━━━⬣`, thumbnail: yt_play[0].thumbnail, mimetype: 'video/mp4' }, { quoted: m })     
 } catch (e1) {
 try {
 let d2 = await fetch(`https://exonity.tech/api/ytdlp2-faster?apikey=adminsepuh&url=${yt_play[0].url}`);
@@ -209,14 +259,6 @@ await conn.sendMessage(m.chat, { document: { url: audiop }, fileName: `${yt_play
 await m.react('❌');
 console.log(e2);
 }}}
-
-/*if (command == 'play4') {
-if (!text) return conn.reply(m.chat, `*🤔Que esta buscado? 🤔*\n*Ingrese el nombre del la canción*\n\n*Ejemplo:*\n#play emilia 420`, m, {contextInfo: {externalAdReply :{ mediaUrl: null, mediaType: 1, description: null, title: wm, body: '', previewType: 0, thumbnail: img.getRandom(), sourceUrl: redes.getRandom()}}})
-const yt_play = await search(args.join(' '))
-const texto1 = `📌 *Título* : ${yt_play[0].title}\n📆 *Publicado:* ${yt_play[0].ago}\n⌚ *Duración:* ${secondString(yt_play[0].duration.seconds)}\n👀 *Vistas:* ${MilesNumber(yt_play[0].views)}`.trim()
-
-await conn.sendButton(m.chat, texto1, botname, yt_play[0].thumbnail, [['Audio', `${usedPrefix}ytmp3 ${yt_play[0].url}`], ['video', `${usedPrefix}ytmp4 ${yt_play[0].url}`], ['Mas resultados', `${usedPrefix}yts ${text}`]], null, null, m)
-}*/
 }
 handler.help = ['play', 'play2', 'play3', 'play4', 'playdoc'];
 handler.tags = ['downloader'];
@@ -315,4 +357,4 @@ if (data.status === 'ok') {
   } else {
     throw new Error("No se pudo obtener la descarga desde 9Convert");
   }
-}
+  }
