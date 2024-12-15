@@ -1,57 +1,113 @@
-import yts from 'yt-search' 
-const handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) throw `⭐ 𝘐𝘯𝘨𝘳𝘦𝘴𝘢 𝘦𝘭 𝘵𝘪́𝘵𝘶𝘭𝘰 𝘥𝘦 𝘭𝘢 𝘤𝘢𝘯𝘤𝘪𝘰́𝘯 𝘥𝘦 𝘠𝘰𝘶𝘛𝘶𝘣𝘦 𝘲𝘶𝘦 𝘥𝘦𝘴𝘦𝘢𝘴 𝘥𝘦𝘴𝘤𝘢𝘳𝘨𝘢𝘳.
+import fetch from 'node-fetch'
+import yts from 'yt-search'
 
-» 𝘌𝘫𝘦𝘮𝘱𝘭𝘰:
-${usedPrefix + command} Feid - Luna`;
+let handler = async (m, { conn: star, command, args, text, usedPrefix }) => {
+  if (!text) return star.reply(m.chat, '🍭 Ingresa el título de un video o canción de YouTube.', m)
     await m.react('🕓')
+    try {
+    let res = await search(args.join(" "))
+    let img = await (await fetch(`${res[0].image}`)).buffer()
+    let txt = 'ゲ◜៹ YouTube Search & Downloader ៹◞ゲ\n\n'
+       txt += `› Título : ${res[0].title}\n`
+       txt += `› Duración : ${secondString(res[0].duration.seconds)}\n`
+       txt += `› Publicado : ${eYear(res[0].ago)}\n`
+       txt += `› Canal : ${res[0].author.name || 'Desconocido'}\n`
+       txt += `› Url : ${'https://youtu.be/' + res[0].videoId}\n\n`
+       txt += `✧ responde a este mensaje con *Video* o *Audio*.`
+await star.sendFile(m.chat, img, 'thumbnail.jpg', txt, m)
+await m.react('✅')
+} catch {
+await m.react('✖️')
+}}
+handler.help = ['play *<búsqueda>*']
+handler.tags = ['downloader']
+handler.command = ['play']
+//handler.register = true 
+export default handler
 
-    const randomReduction = Math.floor(Math.random() * 5) + 1;
-    let search = await yts(text);
-    let f = `\n\n${String.fromCharCode(68,101,118,101,108,111,112,101,100,32,98,121,32,73,39,109,32,70,122,32,126)}`;
-    let isVideo = /vid$/.test(command);
-    let urls = search.all[0].url;
-    let body = `01:27 ━━━━━⬤──── ${search.all[0].timestamp}
-*⇄ㅤ   ◁   ㅤ  ❚❚ㅤ     ▷ㅤ   ↻*
-𝙀𝙡𝙞𝙩𝙚 𝘽𝙤𝙩 𝙂𝙡𝙤𝙗𝙖𝙡 `; conn.sendMessage(m.chat, { 
-        image: { url: search.all[0].thumbnail }, 
-        caption: body + f
-    }, { quoted: m });
-
-    let res = await dl_vid(urls)
-    await m.react('✅')
-    let type = isVideo ? 'video' : 'audio';
-    let video = res.data.mp4;
-    let audio = res.data.mp3;
-    conn.sendMessage(m.chat, { 
-        [type]: { url: isVideo ? video : audio }, 
-        gifPlayback: false, 
-        mimetype: isVideo ? "video/mp4" : "audio/mpeg" 
-    }, { quoted: m });
+async function search(query, options = {}) {
+  let search = await yts.search({ query, hl: "es", gl: "ES", ...options })
+  return search.videos
 }
 
-handler.command = ['play', 'play2'];
-handler.help = ['play', 'play2'];
-handler.tags = ['descargas'];
-export default handler;
+function MilesNumber(number) {
+  let exp = /(\d)(?=(\d{3})+(?!\d))/g
+  let rep = "$1."
+  let arr = number.toString().split(".")
+  arr[0] = arr[0].replace(exp, rep)
+  return arr[1] ? arr.join(".") : arr[0]
+}
 
-async function dl_vid(url) {
-    const response = await fetch('https://shinoa.us.kg/api/download/ytdl', {
-        method: 'POST',
-        headers: {
-            'accept': '*/*',
-            'api_key': 'free',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            text: url,
-        })
-    });
+function secondString(seconds) {
+  seconds = Number(seconds);
+  const d = Math.floor(seconds / (3600 * 24));
+  const h = Math.floor((seconds % (3600 * 24)) / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
+  const dDisplay = d > 0 ? d + (d == 1 ? ' Día, ' : ' Días, ') : '';
+  const hDisplay = h > 0 ? h + (h == 1 ? ' Hora, ' : ' Horas, ') : '';
+  const mDisplay = m > 0 ? m + (m == 1 ? ' Minuto, ' : ' Minutos, ') : '';
+  const sDisplay = s > 0 ? s + (s == 1 ? ' Segundo' : ' Segundos') : '';
+  return dDisplay + hDisplay + mDisplay + sDisplay;
+}
 
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+function sNum(num) {
+    return new Intl.NumberFormat('en-GB', { notation: "compact", compactDisplay: "short" }).format(num)
+}
+
+function eYear(txt) {
+    if (!txt) {
+        return '×'
     }
-
-    const data = await response.json();
-    return data;
+    if (txt.includes('month ago')) {
+        var T = txt.replace("month ago", "").trim()
+        var L = 'hace '  + T + ' mes'
+        return L
+    }
+    if (txt.includes('months ago')) {
+        var T = txt.replace("months ago", "").trim()
+        var L = 'hace ' + T + ' meses'
+        return L
+    }
+    if (txt.includes('year ago')) {
+        var T = txt.replace("year ago", "").trim()
+        var L = 'hace ' + T + ' año'
+        return L
+    }
+    if (txt.includes('years ago')) {
+        var T = txt.replace("years ago", "").trim()
+        var L = 'hace ' + T + ' años'
+        return L
+    }
+    if (txt.includes('hour ago')) {
+        var T = txt.replace("hour ago", "").trim()
+        var L = 'hace ' + T + ' hora'
+        return L
+    }
+    if (txt.includes('hours ago')) {
+        var T = txt.replace("hours ago", "").trim()
+        var L = 'hace ' + T + ' horas'
+        return L
+    }
+    if (txt.includes('minute ago')) {
+        var T = txt.replace("minute ago", "").trim()
+        var L = 'hace ' + T + ' minuto'
+        return L
+    }
+    if (txt.includes('minutes ago')) {
+        var T = txt.replace("minutes ago", "").trim()
+        var L = 'hace ' + T + ' minutos'
+        return L
+    }
+    if (txt.includes('day ago')) {
+        var T = txt.replace("day ago", "").trim()
+        var L = 'hace ' + T + ' dia'
+        return L
+    }
+    if (txt.includes('days ago')) {
+        var T = txt.replace("days ago", "").trim()
+        var L = 'hace ' + T + ' dias'
+        return L
+    }
+    return txt
 }
